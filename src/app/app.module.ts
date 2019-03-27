@@ -18,6 +18,9 @@ import { WebviewDirective } from './directives/webview.directive';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
+import { ResizeableComponent } from './components/resizeable/resizeable.component';
+import { ResizableModule } from 'angular-resizable-element';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -28,13 +31,16 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     HomeComponent,
-    WebviewDirective
+    WebviewDirective,
+    ResizeableComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
+    ResizableModule,
+    AngularDraggableModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
