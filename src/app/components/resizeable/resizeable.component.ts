@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ResizeEvent } from 'angular-resizable-element';
 
 @Component({
   selector: 'c-resizeable',

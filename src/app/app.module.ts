@@ -21,6 +21,10 @@ import { HomeComponent } from './components/home/home.component';
 import { ResizeableComponent } from './components/resizeable/resizeable.component';
 import { ResizableModule } from 'angular-resizable-element';
 import { AngularDraggableModule } from 'angular2-draggable';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -41,13 +45,17 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppRoutingModule,
     ResizableModule,
     AngularDraggableModule,
+    MatCardModule,
+    MatButtonModule,
+    DragDropModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: (HttpLoaderFactory),
         deps: [HttpClient]
       }
-    })
+    }),
+    BrowserAnimationsModule
   ],
   providers: [ElectronService],
   bootstrap: [AppComponent]
