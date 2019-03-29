@@ -43,4 +43,18 @@
     width: 24px;
     height: 24px;
   }
+  .anchor {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    color: #ccc;
+    cursor: move;
+    width: 24px;
+    height: 24px;
+  }
   
+  host{
+      width:100%;
+      height:100%;
+      overflow: auto;
+  }

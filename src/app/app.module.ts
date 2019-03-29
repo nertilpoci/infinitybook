@@ -25,6 +25,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { Ng2PanZoomModule } from 'ng2-panzoom';
+import { PinchZoomModule } from 'ngx-pinch-zoom';
+import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -48,6 +51,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatCardModule,
     MatButtonModule,
     DragDropModule,
+    PinchZoomModule,
+    Ng2PanZoomModule,
+    NgxPageScrollCoreModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
