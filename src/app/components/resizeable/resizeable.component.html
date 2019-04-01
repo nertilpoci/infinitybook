@@ -1,4 +1,7 @@
-<div ngDraggable ngResizable style="width:300px">
+<div ngDraggable ngResizable [style.width.px]="width" [style.height.px]="height"
+[rzHandles]="'se,sw,ne,nw'" style="overflow:hidden" 
+(stopped)="onStop($event)" 
+      (rzStop)="onResizeStop($event)">
 <ng-content></ng-content>  
 </div>
 
