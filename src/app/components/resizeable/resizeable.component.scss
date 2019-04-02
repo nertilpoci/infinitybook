@@ -1,0 +1,12 @@
+.drag-handle{
+    z-index: 99999;
+  color: #ccc;
+  cursor: move;
+  width: 24px;
+  height: 24px;
+  position:absolute
+}
+
+.resizeable {
+    transform:translate(20px,10px);
+}
