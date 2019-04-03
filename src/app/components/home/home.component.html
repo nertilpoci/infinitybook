@@ -1,5 +1,7 @@
 <div  [style.width.px]="width" [style.height.px]="height" class="board"
-  #myBounds>
+  #myBounds
+  (contextmenu)="rightClick($event, {});$event. preventDefault();"
+  >
   <c-resizeable *ngFor="let element of boardElements" [element]="element" (resizeEnded)="resizeEnded($event)" (dragStopped)="dragStopped($event)" (dragMoving)="onMoving($event)">
     <mat-card style="width:100%;height:100%">
       <mat-card-header>
@@ -19,7 +21,12 @@
   
 
 </div>
-
+<ng-template #userMenu let-user>
+  <section class="user-menu">
+    <div (click)="addNewItem()">Delete </div>
+    <div>Send to</div>
+  </section>
+</ng-template>
 <!-- 
 
      

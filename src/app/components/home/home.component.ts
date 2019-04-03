@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, ElementRef, ViewChildren, QueryList, ContentChildren } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef, ViewChildren, QueryList, ContentChildren, TemplateRef, ViewContainerRef } from '@angular/core';
 import { PageScrollService, PageScrollInstance } from 'ngx-page-scroll-core';
 import { DOCUMENT } from '@angular/common';
 import { settings } from 'cluster';
@@ -7,6 +7,10 @@ import zenscroll from 'zenscroll'
 import { MatCard } from '@angular/material/card';
 import { ResizeableComponent } from '../resizeable/resizeable.component';
 import { BoardElement } from '../../shared/model/BoardElement';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { fromEvent, Subscription } from 'rxjs';
+import { take, filter } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -15,16 +19,24 @@ import { BoardElement } from '../../shared/model/BoardElement';
 export class HomeComponent implements OnInit {
   @ViewChild('basicContainer')
   public basicContainer: ElementRef;
+  @ViewChild('userMenu') userMenu: TemplateRef<any>;
+
   @ViewChildren(ResizeableComponent) boardItems: QueryList<ResizeableComponent>
   ngAfterViewInit() {
   }
   containerWidth:number =window.innerWidth;
   containerHeight:number =window.innerHeight;
-  width: number = this.containerWidth - 300;
-  height: number = this.containerHeight - 300;
+  width: number = this.containerWidth;
+  height: number = this.containerHeight;
 
   boardElements : BoardElement[]= [];
-  constructor(private pageScrollService: PageScrollService,
+  overlayRef: OverlayRef | null;
+  sub: Subscription;
+
+  constructor(
+    public overlay: Overlay,
+    public viewContainerRef: ViewContainerRef,
+    private pageScrollService: PageScrollService,
      @Inject(DOCUMENT) private document: any) {
        let element1=new BoardElement();
        element1.x=200
@@ -50,6 +62,49 @@ export class HomeComponent implements OnInit {
        left: true,
        right: true
      };
+     close() {
+      this.sub && this.sub.unsubscribe();
+      if (this.overlayRef) {
+        this.overlayRef.dispose();
+        this.overlayRef = null;
+      }
+    }
+    addNewItem(){
+      console.log('add new item')
+      this.boardElements.push(new BoardElement({x: 100, y: 100, width: 300, height:100} as BoardElement))
+    }
+     rightClick({ x, y }: MouseEvent){
+       this.close()
+      const positionStrategy = this.overlay.position()
+      .flexibleConnectedTo({ x, y })
+      .withPositions([
+        {
+          originX: 'end',
+          originY: 'bottom',
+          overlayX: 'end',
+          overlayY: 'top',
+        }
+      ]);
+
+    this.overlayRef = this.overlay.create({
+      positionStrategy,
+      scrollStrategy: this.overlay.scrollStrategies.close()
+    });
+
+    this.overlayRef.attach(new TemplatePortal(this.userMenu, this.viewContainerRef, {
+      $implicit: {}
+    }));
+
+    this.sub = fromEvent<MouseEvent>(document, 'click')
+    .pipe(
+      filter(event => {
+        const clickTarget = event.target as HTMLElement;
+        return !!this.overlayRef && !this.overlayRef.overlayElement.contains(clickTarget);
+      }),
+      take(1)
+    ).subscribe(() => this.close())
+
+     }
      resizeEnded(element: BoardElement){
       localStorage.setItem("boarditems", JSON.stringify(this.boardItems.map(z=> new BoardElement(z))));
      }

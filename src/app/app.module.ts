@@ -25,6 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatMenuModule} from '@angular/material/menu';
+
 import { Ng2PanZoomModule } from 'ng2-panzoom';
 import { PinchZoomModule } from 'ngx-pinch-zoom';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
@@ -50,6 +52,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AngularDraggableModule,
     MatCardModule,
     MatButtonModule,
+    MatMenuModule,
     DragDropModule,
     PinchZoomModule,
     Ng2PanZoomModule,
