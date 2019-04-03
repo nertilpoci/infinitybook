@@ -15,13 +15,13 @@ import { BoardElement } from '../../shared/model/BoardElement';
 export class HomeComponent implements OnInit {
   @ViewChild('basicContainer')
   public basicContainer: ElementRef;
-  @ViewChildren(ResizeableComponent) cards: QueryList<ResizeableComponent>
+  @ViewChildren(ResizeableComponent) boardItems: QueryList<ResizeableComponent>
   ngAfterViewInit() {
   }
   containerWidth:number =window.innerWidth;
   containerHeight:number =window.innerHeight;
-  width: number = this.containerWidth;
-  height: number = this.containerHeight;
+  width: number = this.containerWidth - 300;
+  height: number = this.containerHeight - 300;
 
   boardElements : BoardElement[]= [];
   constructor(private pageScrollService: PageScrollService,
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
        element1.y=200
        element1.width=100
        element1.height=50
-      //  this.boardElements.push(element1)
+      
 
 
        let element2=new BoardElement();
@@ -39,7 +39,8 @@ export class HomeComponent implements OnInit {
        element2.y=400
        element2.width=100
        element2.height=150
-      //  this.boardElements.push(element2)
+       this.boardElements.push(element2)
+       this.boardElements.push(element1)
       }
      inDragElement: HTMLElement;
      inBounds = true;
@@ -49,9 +50,11 @@ export class HomeComponent implements OnInit {
        left: true,
        right: true
      };
-  
+     resizeEnded(element: BoardElement){
+      localStorage.setItem("boarditems", JSON.stringify(this.boardItems.map(z=> new BoardElement(z))));
+     }
     dragStopped(element: BoardElement){
-      var xyValues = this.cards.map(z=> ({x: ( z.x + z.width), y : (z.y + z.width) }))
+      var xyValues = this.boardItems.map(z=> ({x: ( z.x + z.width), y : (z.y + z.width) }))
       var maxX= Math.max(...xyValues.map(z=>z.x))
       var maxY= Math.max(...xyValues.map(z=>z.y))
       if(this.width > this.containerWidth) this.width= maxX +10;
@@ -59,18 +62,17 @@ export class HomeComponent implements OnInit {
      
       if(this.width< this.containerWidth) this.width= this.containerWidth
       if(this.height< this.containerHeight) this.height= this.containerHeight
+      console.log(this)
 
-      localStorage.setItem("boarditems", JSON.stringify(this.boardElements));
-      console.log(this.boardElements)
+      localStorage.setItem("boarditems", JSON.stringify(this.boardItems.map(z=> new BoardElement(z))));
     }
     elementChanged(item){
-      console.log('elementchanged')
-      console.log(item)
     }
     @debounceMethod(100)
     onMoving(element: BoardElement) {
-      
+      console.log(element)
       if(element.x + element.width>= this.width) {
+        console.log('width')
         this.width = this.width + 50;
         this.pageScrollService.scroll({
           document: this.document,
@@ -99,15 +101,8 @@ export class HomeComponent implements OnInit {
       // this.width = this.width + 50;
       // this.height = this.height + 50;
     }
-  
-    onMoveEnd(event) {
-      // console.log('move end:', event);
-      // this.endOffset.x = event.x;
-      // this.endOffset.y = event.y;
-    }
   checkEdge(event) {
     this.edge = event;
-    // console.log('edge:', event);
   }
   ngOnInit() {
    var bitems= localStorage.getItem("boarditems");

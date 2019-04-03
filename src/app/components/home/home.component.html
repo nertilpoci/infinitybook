@@ -1,6 +1,6 @@
 <div  [style.width.px]="width" [style.height.px]="height" class="board"
   #myBounds>
-  <c-resizeable *ngFor="let element of boardElements" [element]="element" [(eHeight)]="element.height" [(eWidth)]="element.width" [(top)]="element.y"  [(left)]="element.x" (dragStopped)="dragStopped($event)" (movingOffset)="onMoving($event)">
+  <c-resizeable *ngFor="let element of boardElements" [element]="element" (resizeEnded)="resizeEnded($event)" (dragStopped)="dragStopped($event)" (dragMoving)="onMoving($event)">
     <mat-card style="width:100%;height:100%">
       <mat-card-header>
         <mat-card-title>Test Card</mat-card-title>

@@ -9,54 +9,56 @@ import { BoardElement } from '../../shared/model/BoardElement';
 export class ResizeableComponent extends  BoardElement implements OnInit {
 
   @Output() dragStopped: EventEmitter<BoardElement> = new EventEmitter();
-  @Output() movingOffset: EventEmitter<BoardElement> = new EventEmitter();
+  @Output() dragMoving: EventEmitter<BoardElement> = new EventEmitter();
+  @Output() dragStarted: EventEmitter<BoardElement> = new EventEmitter();
+  @Output() resizeStarted: EventEmitter<BoardElement> = new EventEmitter();
+  @Output() resizing: EventEmitter<BoardElement> = new EventEmitter();
+  @Output() resizeEnded: EventEmitter<BoardElement> = new EventEmitter();
+
   @Input() element : BoardElement
-  @Output() elementChange = new EventEmitter();
-  @Input() left : number 
-  @Output() leftChange = new EventEmitter();
-
-  @Input() top : number 
-  @Output() topChange = new EventEmitter();
-
-  @Input() eWidth : number 
-  @Output() eWidthChange = new EventEmitter();
-
-  @Input() eHeight : number 
-  @Output() eHeightChange = new EventEmitter();
-  showHandle : boolean = false
   
+  showHandle : boolean = false
+  constructor(){
+    super()
+  }
   
   ngOnInit() {
   this.x= this.element.x;
   this.y = this.element.y
   this.width = this.element.width
   this.height = this.element.height
-     console.log(this.element)
   }
   get position(){
     return {x: this.x, y: this.y}
   }
   onMounseEnter(){
   this.showHandle = true;
-
   }
 
   onMouseOut(){
   this.showHandle = false
-  this.elementChange.emit(this as BoardElement)
   }
   onMoving(event) {
     this.x= event.x
     this.y= event.y
-    this.movingOffset.emit(this as BoardElement);
-    this.leftChange.emit(this.x)
-    this.topChange.emit(this.top)
-
+    this.dragMoving.emit(this as BoardElement);
+  }
+  onStop(element:HTMLElement) {
+    this.assignPosition(element)
+    this.dragStopped.emit(this as BoardElement);
   }
 
   onResizeStop(event) {
-   
+    this.width= event.size.width
+    this.height = event.size.height
+    this.resizeEnded.emit(this as BoardElement)
+  }
+  onResizeStart(event){
     
+  }
+  onResizing(event){
+    this.width= event.size.width
+    this.height = event.size.height
   }
   assignPosition(event){
     this.width= event.clientWidth
@@ -65,10 +67,7 @@ export class ResizeableComponent extends  BoardElement implements OnInit {
     this.y= this.getTranslateYValue(event.style.transform)
   }
   
-  onStop(element:HTMLElement) {
-    this.assignPosition(element)
-    this.dragStopped.emit(this as BoardElement);
-  }
+  
  getTranslateXValue(translateString){
 
     var n = translateString.indexOf("(");
