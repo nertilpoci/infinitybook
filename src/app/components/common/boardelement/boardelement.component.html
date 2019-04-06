@@ -1,11 +1,11 @@
 
-<div ngDraggable ngResizable [style.width.px]="width" [style.height.px]="height"
-  [rzHandles]="'se,sw,ne,nw'" style="overflow:hidden" (stopped)="onStop($event)" (movingOffset)="onMoving($event)"
+<div ngDraggable ngResizable [style.width.px]="elementWidth" [style.height.px]="elementHeight"
+  [rzHandles]="'se,sw,ne,nw'"  (stopped)="onStop($event)" (movingOffset)="onMoving($event)"
   [position]="position" (rzStop)="onResizeStop($event)" [handle]="myHandle" (mouseover)="onMounseEnter()"
   (mouseleave)="onMouseOut()"
   (rzStart)="onResizeStart($event)"
   (rzResizing)="onResizing($event)"
-  class="resizeable"
+  class="resizeable" [class.border]="showHandle"
   >
  <div #myHandle  [style.visibility]="showHandle? 'visible' : 'hidden'">
   <mat-toolbar style="height:25px" >
@@ -17,10 +17,15 @@
         <path d="M0 0h24v24H0z" fill="none"></path>
       </svg>
     </div>
+    <span class="box-spacer"></span>
+    <mat-icon class="box-icon" aria-hidden="false" (click)="maximize()" aria-label="Example delete icon">fullscreen</mat-icon>
   </mat-toolbar>
  </div>
  
- <ng-content></ng-content>
+
+ <div class="content">
+  <ng-content ></ng-content>
+ </div>
   
   <div [id]="id" style="position:absolute;bottom:0px;right:0px"></div>
 </div>

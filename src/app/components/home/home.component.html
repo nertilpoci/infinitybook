@@ -2,10 +2,12 @@
   #myBounds
   (contextmenu)="rightClick($event, {});$event. preventDefault();"
   >
-  <c-resizeable *ngFor="let element of boardElements" [element]="element" (resizeEnded)="resizeEnded($event)" (dragStopped)="dragStopped($event)" (dragMoving)="onMoving($event)">
-    <button mat-raised-button color="primary">Primary</button>
-
-  </c-resizeable>
+  <board-element *ngFor="let element of boardElements" [element]="element" (resizeEnded)="resizeEnded($event)" (dragStopped)="dragStopped($event)" (dragMoving)="onMoving($event)">
+   
+<div style="width:100%;height:100%;background:red" >
+  asdfasdf
+</div>
+  </board-element>
   
   
 

@@ -5,7 +5,7 @@ import { settings } from 'cluster';
 import { setTimeout } from 'timers';
 import zenscroll from 'zenscroll'
 import { MatCard } from '@angular/material/card';
-import { ResizeableComponent } from '../resizeable/resizeable.component';
+import { BoardElementComponent } from '../common/boardelement/boardelement.component';
 import { BoardElement } from '../../shared/model/BoardElement';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   public basicContainer: ElementRef;
   @ViewChild('userMenu') userMenu: TemplateRef<any>;
 
-  @ViewChildren(ResizeableComponent) boardItems: QueryList<ResizeableComponent>
+  @ViewChildren(BoardElementComponent) boardItems: QueryList<BoardElementComponent>
   ngAfterViewInit() {
   }
   containerWidth:number =window.innerWidth;

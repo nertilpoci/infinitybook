@@ -18,7 +18,7 @@ import { WebviewDirective } from './directives/webview.directive';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
-import { ResizeableComponent } from './components/resizeable/resizeable.component';
+import { BoardElementComponent } from './components/common/boardelement/boardelement.component';
 import { ResizableModule } from 'angular-resizable-element';
 import { AngularDraggableModule } from 'angular2-draggable';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,7 +26,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatMenuModule} from '@angular/material/menu';
-
+import { MarkdownModule } from 'ngx-markdown';
 import { Ng2PanZoomModule } from 'ng2-panzoom';
 import { PinchZoomModule } from 'ngx-pinch-zoom';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
@@ -42,7 +42,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     HomeComponent,
     WebviewDirective,
-    ResizeableComponent
+    BoardElementComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +60,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatToolbarModule,
     NgxPageScrollCoreModule,
     MatIconModule,
-    TranslateModule.forRoot({
+    MarkdownModule.forRoot({ loader: HttpClient }),
+        TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: (HttpLoaderFactory),
