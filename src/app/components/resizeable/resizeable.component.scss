@@ -8,5 +8,11 @@
 }
 
 .resizeable {
-   position:absolute
+   position:absolute;
+   background: transparent
+  }
+.ng-resizable-handle.ng-resizable-se{
+  // border-color: transparent;
 }
+
+

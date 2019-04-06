@@ -15,7 +15,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ElectronService } from './providers/electron.service';
 
 import { WebviewDirective } from './directives/webview.directive';
-
+import {MatToolbarModule} from '@angular/material/toolbar';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { ResizeableComponent } from './components/resizeable/resizeable.component';
@@ -30,6 +30,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { Ng2PanZoomModule } from 'ng2-panzoom';
 import { PinchZoomModule } from 'ngx-pinch-zoom';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
+import {MatIconModule} from '@angular/material/icon';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -56,7 +57,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     DragDropModule,
     PinchZoomModule,
     Ng2PanZoomModule,
+    MatToolbarModule,
     NgxPageScrollCoreModule,
+    MatIconModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

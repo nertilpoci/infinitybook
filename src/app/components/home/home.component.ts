@@ -117,7 +117,6 @@ export class HomeComponent implements OnInit {
      
       if(this.width< this.containerWidth) this.width= this.containerWidth
       if(this.height< this.containerHeight) this.height= this.containerHeight
-      console.log(this)
 
       localStorage.setItem("boarditems", JSON.stringify(this.boardItems.map(z=> new BoardElement(z))));
     }
