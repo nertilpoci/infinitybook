@@ -6,18 +6,19 @@ import { BoardElement } from '../../../shared/model/BoardElement';
   templateUrl: './boardelement.component.html',
   styleUrls: ['./boardelement.component.scss']
 })
-export class BoardElementComponent extends  BoardElement implements OnInit {
+export class BoardElementComponent extends  BoardElement<any> implements OnInit {
 
-  @Output() dragStopped: EventEmitter<BoardElement> = new EventEmitter();
-  @Output() dragMoving: EventEmitter<BoardElement> = new EventEmitter();
-  @Output() dragStarted: EventEmitter<BoardElement> = new EventEmitter();
-  @Output() resizeStarted: EventEmitter<BoardElement> = new EventEmitter();
-  @Output() resizing: EventEmitter<BoardElement> = new EventEmitter();
-  @Output() resizeEnded: EventEmitter<BoardElement> = new EventEmitter();
+  @Output() dragStopped: EventEmitter<BoardElement<any>> = new EventEmitter();
+  @Output() dragMoving: EventEmitter<BoardElement<any>> = new EventEmitter();
+  @Output() dragStarted: EventEmitter<BoardElement<any>> = new EventEmitter();
+  @Output() resizeStarted: EventEmitter<BoardElement<any>> = new EventEmitter();
+  @Output() resizing: EventEmitter<BoardElement<any>> = new EventEmitter();
+  @Output() resizeEnded: EventEmitter<BoardElement<any>> = new EventEmitter();
+  @Output() onDelete: EventEmitter<BoardElement<any>> = new EventEmitter();
 
-  @Input() element : BoardElement
+  @Input() element : BoardElement<any>
   isFullscreen = false
-  showHandle : boolean = false
+  _showHandle : boolean = false
   constructor(){
     super()
   }
@@ -28,11 +29,20 @@ export class BoardElementComponent extends  BoardElement implements OnInit {
   this.width = this.element.width
   this.height = this.element.height
   }
+  get showHandle(){
+    return this.isFullscreen || this._showHandle;
+  }
+  set showHandle(value: boolean){
+    this._showHandle = value
+  }
+  get elementZIndex (){
+    return this.isFullscreen ? Number.MAX_SAFE_INTEGER : this.zIndex
+  }
   get elementWidth(){
-    return this.isFullscreen ? window.innerWidth : this.width;
+    return this.isFullscreen ? window.innerWidth -6 : this.width;
   }
   get elementHeight(){
-    return this.isFullscreen ? window.innerHeight : this.height;
+    return this.isFullscreen ? window.innerHeight -6 : this.height;
   }
   get position(){
     return this.isFullscreen? {x: 0, y: 0} : {x: this.x, y: this.y}
@@ -52,19 +62,19 @@ export class BoardElementComponent extends  BoardElement implements OnInit {
     console.log('moving')
     this.x= event.x
     this.y= event.y
-    this.dragMoving.emit(this as BoardElement);
+    this.dragMoving.emit(this as BoardElement<any>);
   }
   onStop(element:HTMLElement) {
     console.log('onstop')
     if(this.isFullscreen) return
     this.assignPosition(element)
-    this.dragStopped.emit(this as BoardElement);
+    this.dragStopped.emit(this as BoardElement<any>);
   }
 
   onResizeStop(event) {
     this.width= event.size.width
     this.height = event.size.height
-    this.resizeEnded.emit(this as BoardElement)
+    this.resizeEnded.emit(this as BoardElement<any>)
   }
   onResizeStart(event){
     
@@ -79,7 +89,9 @@ export class BoardElementComponent extends  BoardElement implements OnInit {
     this.x= this.getTranslateXValue(event.style.transform)
     this.y= this.getTranslateYValue(event.style.transform)
   }
-  
+  delete(){
+     this.onDelete.emit(this as BoardElement<any>)
+  }
   
  getTranslateXValue(translateString){
 

@@ -1,5 +1,5 @@
 
-<div ngDraggable ngResizable [style.width.px]="elementWidth" [style.height.px]="elementHeight"
+<div ngDraggable ngResizable [style.z-index]="elementZIndex" [style.width.px]="elementWidth" [style.height.px]="elementHeight"
   [rzHandles]="'se,sw,ne,nw'"  (stopped)="onStop($event)" (movingOffset)="onMoving($event)"
   [position]="position" (rzStop)="onResizeStop($event)" [handle]="myHandle" (mouseover)="onMounseEnter()"
   (mouseleave)="onMouseOut()"
@@ -19,6 +19,7 @@
     </div>
     <span class="box-spacer"></span>
     <mat-icon class="box-icon" aria-hidden="false" (click)="maximize()" aria-label="Example delete icon">fullscreen</mat-icon>
+    <mat-icon class="box-icon" aria-hidden="false" (click)="delete()" aria-label="Example delete icon">delete</mat-icon>
   </mat-toolbar>
  </div>
  

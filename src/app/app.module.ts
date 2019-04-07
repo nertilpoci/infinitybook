@@ -26,11 +26,12 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatMenuModule} from '@angular/material/menu';
-import { MarkdownModule } from 'ngx-markdown';
 import { Ng2PanZoomModule } from 'ng2-panzoom';
 import { PinchZoomModule } from 'ngx-pinch-zoom';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import {MatIconModule} from '@angular/material/icon';
+import { BoardElementsModule } from './board-elements/board-elements.module';
+import { DynamicContentComponent } from './components/common/dynamiccontent/dynamiccontent.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -42,7 +43,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     HomeComponent,
     WebviewDirective,
-    BoardElementComponent
+    BoardElementComponent,
+    DynamicContentComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +62,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatToolbarModule,
     NgxPageScrollCoreModule,
     MatIconModule,
-    MarkdownModule.forRoot({ loader: HttpClient }),
+    BoardElementsModule,
         TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

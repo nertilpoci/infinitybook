@@ -1,12 +1,14 @@
 <div  [style.width.px]="width" [style.height.px]="height" class="board"
   #myBounds
   (contextmenu)="rightClick($event, {});$event. preventDefault();"
+  (drop)="dropHandler($event);" (dragover)="dragOverHandler($event);"
   >
-  <board-element *ngFor="let element of boardElements" [element]="element" (resizeEnded)="resizeEnded($event)" (dragStopped)="dragStopped($event)" (dragMoving)="onMoving($event)">
-   
-<div style="width:100%;height:100%;background:red" >
-  asdfasdf
-</div>
+  <board-element (onDelete)="onDelete($event)" *ngFor="let element of boardElements" [element]="element" (resizeEnded)="resizeEnded($event)" (dragStopped)="dragStopped($event)" (dragMoving)="onMoving($event)">
+    <!-- <markdown ngPreserveWhitespaces src='https://raw.githubusercontent.com/nertilpoci/MultiStorageProvider/master/README.md'>
+      # Markdown
+    </markdown> -->
+    <dynamic-content [type]="element.type" [context]="element.context"></dynamic-content>
+
   </board-element>
   
   
