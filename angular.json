@@ -143,6 +143,41 @@
           }
         }
       }
+    },
+    "IBCommon": {
+      "root": "projects/ibcommon",
+      "sourceRoot": "projects/ibcommon/src",
+      "projectType": "library",
+      "prefix": "inf",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ibcommon/tsconfig.lib.json",
+            "project": "projects/ibcommon/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ibcommon/src/test.ts",
+            "tsConfig": "projects/ibcommon/tsconfig.spec.json",
+            "karmaConfig": "projects/ibcommon/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ibcommon/tsconfig.lib.json",
+              "projects/ibcommon/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "angular-electron",

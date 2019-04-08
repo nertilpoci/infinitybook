@@ -32,7 +32,7 @@ import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import {MatIconModule} from '@angular/material/icon';
 import { BoardElementsModule } from './board-elements/board-elements.module';
 import { DynamicContentComponent } from './components/common/dynamiccontent/dynamiccontent.component';
-
+import {IBCommonModule} from 'ibcommon'
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -62,6 +62,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatToolbarModule,
     NgxPageScrollCoreModule,
     MatIconModule,
+    IBCommonModule,
     BoardElementsModule,
         TranslateModule.forRoot({
       loader: {
