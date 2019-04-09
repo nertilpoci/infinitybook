@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('ibcommon-lib')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'ibcommon-lib'], factory) :
-	(factory((global['plugin-image'] = {}),global.core,global.ibcommonLib));
-}(this, (function (exports,core,ibcommonLib) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core'], factory) :
+	(factory((global['plugin-image'] = {}),global.core));
+}(this, (function (exports,core) { 'use strict';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -20,18 +20,7 @@ and limitations under the License.
 ***************************************************************************** */
 /* global Reflect, Promise */
 
-var extendStatics = function(d, b) {
-    extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return extendStatics(d, b);
-};
 
-function __extends(d, b) {
-    extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-}
 
 
 
@@ -44,10 +33,8 @@ function __decorate(decorators, target, key, desc) {
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 }
 
-var ImageComponent = /** @class */ (function (_super) {
-    __extends(ImageComponent, _super);
+var ImageComponent = /** @class */ (function () {
     function ImageComponent() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
     ImageComponent.prototype.ngOnInit = function () {
     };
@@ -59,7 +46,7 @@ var ImageComponent = /** @class */ (function (_super) {
         })
     ], ImageComponent);
     return ImageComponent;
-}(ibcommonLib.DynamicComponent));
+}());
 
 var IbImageElementModule = /** @class */ (function () {
     function IbImageElementModule() {

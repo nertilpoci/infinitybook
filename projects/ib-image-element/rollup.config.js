@@ -6,7 +6,7 @@ import commonjs from 'rollup-plugin-commonjs';
 export default [{
    input: 'src/rollup.ts',
    output: {
-     file: '../../src/plugins/plugin-image.bundle.js',
+     file: '../../src/assets/plugins/plugin-image.bundle.js',
      format: 'umd',
      name: 'plugin-image',
 },

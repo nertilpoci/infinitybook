@@ -71,9 +71,9 @@ declare const SystemJS: any;
       }
 
      async loadPlugins() {
+     
          // import external module bundle
-    const module = await SystemJS.import('../../../plugins/plugin-image.bundle.js');
-
+    const module = await SystemJS.import('assets/plugins/plugin-image.bundle.js');
     // compile module
     const moduleFactory = await this.compiler
                                     .compileModuleAsync<any>(module.IbImageElementModule);
