@@ -206,6 +206,134 @@
           }
         }
       }
+    },
+    "BaseComponents": {
+      "root": "projects/BaseComponents/",
+      "sourceRoot": "projects/BaseComponents/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/BaseComponents",
+            "index": "projects/BaseComponents/src/index.html",
+            "main": "projects/BaseComponents/src/main.ts",
+            "polyfills": "projects/BaseComponents/src/polyfills.ts",
+            "tsConfig": "projects/BaseComponents/tsconfig.app.json",
+            "assets": [
+              "projects/BaseComponents/src/favicon.ico",
+              "projects/BaseComponents/src/assets"
+            ],
+            "styles": [
+              "projects/BaseComponents/src/styles.css"
+            ],
+            "scripts": [],
+            "es5BrowserSupport": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/BaseComponents/src/environments/environment.ts",
+                  "with": "projects/BaseComponents/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "BaseComponents:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "BaseComponents:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "BaseComponents:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/BaseComponents/src/test.ts",
+            "polyfills": "projects/BaseComponents/src/polyfills.ts",
+            "tsConfig": "projects/BaseComponents/tsconfig.spec.json",
+            "karmaConfig": "projects/BaseComponents/karma.conf.js",
+            "styles": [
+              "projects/BaseComponents/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/BaseComponents/src/favicon.ico",
+              "projects/BaseComponents/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/BaseComponents/tsconfig.app.json",
+              "projects/BaseComponents/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "BaseComponents-e2e": {
+      "root": "projects/BaseComponents-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/BaseComponents-e2e/protractor.conf.js",
+            "devServerTarget": "BaseComponents:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "BaseComponents:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/BaseComponents-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "InfinityBook"
