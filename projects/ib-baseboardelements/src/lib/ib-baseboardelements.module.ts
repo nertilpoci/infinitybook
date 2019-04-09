@@ -12,6 +12,18 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     MarkdownModule.forRoot({ loader: HttpClient }),
   ],
+  providers: [{
+    provide: 'plugins',
+    useValue: [{
+      name: 'plugin-a-component',
+      component: MarkdownComponent
+    },
+    {
+      name: 'plugin-b-component',
+      component: ImageComponent
+    }],
+    multi: true
+  }],
   exports: [IbBaseboardelementsComponent ],
   entryComponents: [MarkdownComponent, ImageComponent]
 })

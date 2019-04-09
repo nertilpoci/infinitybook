@@ -30,6 +30,12 @@
       ],
       "ib-baseboardelements/*": [
         "dist/ib-baseboardelements/*"
+      ],
+      "ib-image-element": [
+        "dist/ib-image-element"
+      ],
+      "ib-image-element/*": [
+        "dist/ib-image-element/*"
       ]
     }
   }

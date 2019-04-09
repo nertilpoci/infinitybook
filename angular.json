@@ -27,10 +27,9 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [ "node_modules/systemjs/dist/system.js"],
             "es5BrowserSupport": true
           },
           "configurations": {
@@ -199,6 +198,41 @@
             "tsConfig": [
               "projects/ib-baseboardelements/tsconfig.lib.json",
               "projects/ib-baseboardelements/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ib-image-element": {
+      "root": "projects/ib-image-element",
+      "sourceRoot": "projects/ib-image-element/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ib-image-element/tsconfig.lib.json",
+            "project": "projects/ib-image-element/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ib-image-element/src/test.ts",
+            "tsConfig": "projects/ib-image-element/tsconfig.spec.json",
+            "karmaConfig": "projects/ib-image-element/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ib-image-element/tsconfig.lib.json",
+              "projects/ib-image-element/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

@@ -1,5 +1,5 @@
 {
-  "name": "ib-baseboardelements",
+  "name": "ib-image-element",
   "version": "0.0.1",
   "scripts": {
     "build": "rollup -c"
@@ -8,18 +8,15 @@
     "@angular/common": "^7.2.0",
     "@angular/core": "^7.2.0"
   },
-  "dependencies": {
-    "ngx-markdown": "^7.1.4"
-  },
   "devDependencies": {
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0",
     "rollup-plugin-angular": "^0.5.3",
     "rollup-plugin-commonjs": "8.3.0",
     "rollup-plugin-node-resolve": "3.0.2",
     "rollup-plugin-typescript": "0.8.1",
     "rollup-plugin-typescript2": "0.10.0",
     "typescript": "3.4.2",
-    "@angular/common": "5.2.0",
-    "@angular/core": "5.2.0",
     "rollup": "0.55.1",
     "rxjs": "5.5.6"
   }
