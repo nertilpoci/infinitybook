@@ -49,10 +49,10 @@ export class BoardComponent implements OnInit {
     @Inject(DOCUMENT) private document: any
   ) {
     const element1 = new BoardElement<any>();
-    element1.x = 200;
-    element1.y = 200;
-    element1.width = 100;
-    element1.height = 50;
+    element1.x = 600;
+    element1.y = 10;
+    element1.width = 471;
+    element1.height = 461;
     element1.type = 'image';
     element1.context = {
       src:
@@ -60,10 +60,10 @@ export class BoardComponent implements OnInit {
     };
 
     const element2 = new BoardElement<any>();
-    element2.x = 400;
-    element2.y = 400;
-    element2.width = 100;
-    element2.height = 150;
+    element2.x = 10;
+    element2.y = 10;
+    element2.width = 400;
+    element2.height = 600;
     element2.type = 'markdown';
     element2.context = {
       src:

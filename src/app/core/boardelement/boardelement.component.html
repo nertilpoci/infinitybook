@@ -1,5 +1,5 @@
 
-<div ngDraggable ngResizable [style.z-index]="elementZIndex" [style.width.px]="elementWidth" [style.height.px]="elementHeight"
+<div [ngDraggable]="!isFullscreen" [ngResizable]="!isFullscreen" [style.z-index]="elementZIndex" [style.width.px]="elementWidth" [style.height.px]="elementHeight"
   [rzHandles]="'se,sw,ne,nw'"  (stopped)="onStop($event)" (movingOffset)="onMoving($event)"
   [position]="position" (rzStop)="onResizeStop($event)" [handle]="myHandle" (mouseover)="onMounseEnter()"
   (mouseleave)="onMouseOut()"
@@ -7,26 +7,24 @@
   (rzResizing)="onResizing($event)"
   class="resizeable" [class.border]="showHandle"
   >
- <div #myHandle  [style.visibility]="showHandle? 'visible' : 'hidden'">
-  <mat-toolbar style="height:25px" >
-    <div class="drag-handle" >
+  <div class="drag-handle"   #myHandle  [style.visibility]="showHandle? 'visible' : 'visible'">
+  <mat-toolbar  style="height:25px;" >
+    <!-- <div >
       <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
         <path
           d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
         </path>
         <path d="M0 0h24v24H0z" fill="none"></path>
       </svg>
-    </div>
+    </div> -->
     <span class="box-spacer"></span>
     <mat-icon class="box-icon" aria-hidden="false" (click)="maximize()" aria-label="Example delete icon">fullscreen</mat-icon>
     <mat-icon class="box-icon" aria-hidden="false" (click)="delete()" aria-label="Example delete icon">delete</mat-icon>
   </mat-toolbar>
- </div>
- 
-
+</div>
  <div class="content">
   <ng-content ></ng-content>
  </div>
-  
+
   <div [id]="id" style="position:absolute;bottom:0px;right:0px"></div>
 </div>
