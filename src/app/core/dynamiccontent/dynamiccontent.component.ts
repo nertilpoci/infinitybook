@@ -1,8 +1,9 @@
-import { ViewContainerRef, Component, ViewChild, Input, OnInit, OnDestroy, ComponentRef, ComponentFactoryResolver } from '@angular/core';
+import { ViewContainerRef, Component, ViewChild, Input, OnInit, OnDestroy, ComponentRef, ComponentFactoryResolver, Compiler, NgModule } from '@angular/core';
 // import { ImageComponent } from "../../../board-elements/components/image/image.component";
 // import { BoardElement } from "../../../shared/model/BoardElement";
 import { DynamicComponent } from 'ibcommon-lib';
 import { MarkdownComponent, ImageComponent } from 'ib-baseboardelements';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-dynamic-content',
@@ -21,29 +22,22 @@ import { MarkdownComponent, ImageComponent } from 'ib-baseboardelements';
     type: string;
     @Input()
     context: any;
-    constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
-    private mappings = {
-         image: ImageComponent,
-         markdown: MarkdownComponent
-      };
+   
+    
+    constructor(
+      private componentFactoryResolver: ComponentFactoryResolver,
+      private compiler: Compiler) {
+  }
 
-      getComponentType(typeName: string) {
-        const type = this.mappings[typeName];
-        return type ;
-      }
     ngOnInit() {
-        if (this.type) {
-          const componentType = this.getComponentType(this.type);
-          console.log('type', componentType);
-          const factory = this.componentFactoryResolver.resolveComponentFactory(
-            componentType
-          );
-          this.componentRef = this.container.createComponent(factory);
-          const instance = this.componentRef.instance as DynamicComponent<any>;
-          console.log('instance', instance);
-          console.log('instancecontext', this.context);
-          instance.context = this.context;
-        }
+       this.addComponent('image-element')
+      }
+
+      addComponent(element:string){
+        
+
+    const tile = document.createElement(element);
+    this.container.element.nativeElement.appendChild(tile)
       }
 
       ngOnDestroy() {
