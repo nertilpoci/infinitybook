@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BoardComponent } from './board/board.component';
 import { BoardElementComponent } from './boardelement/boardelement.component';
@@ -10,7 +10,6 @@ import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import {MatIconModule} from '@angular/material/icon';
 import { AngularDraggableModule } from 'angular2-draggable';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { IbBaseboardelementsModule } from 'ib-baseboardelements';
 @NgModule({
   declarations: [BoardComponent, BoardElementComponent, DynamicContentComponent],
   imports: [
@@ -21,9 +20,9 @@ import { IbBaseboardelementsModule } from 'ib-baseboardelements';
     NgxPageScrollCoreModule,
     MatIconModule,
     AngularDraggableModule,
-    OverlayModule,
-    IbBaseboardelementsModule
+    OverlayModule
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [BoardComponent, BoardElementComponent, DynamicContentComponent],
   entryComponents : [ ]
 
