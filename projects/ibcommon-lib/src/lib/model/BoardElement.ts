@@ -7,6 +7,7 @@ export class BoardElement<T>{
   public zIndex: number = 0
   public context: T = null;
   public type: string;
+  public contextSchema: any;
   constructor(args?: BoardElement<T> ) {
   if(!args) return
     this.id = args.id || this.randomId(100)

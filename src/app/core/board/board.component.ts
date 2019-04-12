@@ -17,6 +17,9 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { fromEvent, Subscription } from 'rxjs';
 import { take, filter } from 'rxjs/operators';
+import {MatDialog} from '@angular/material';
+import { BoardElementSettingsComponent } from '../boardelementsettings/boardelementsettings.component';
+
 // import { FileService } from '../../shared/services/file.service';
 @Component({
   selector: 'app-board',
@@ -58,8 +61,12 @@ export class BoardComponent implements OnInit {
       src:
         'http://www.twentyonepilots.com/sites/g/files/g2000004896/f/Sample-image10-highres.jpg'
     };
-
+    element1.contextSchema={
+      "url": '',
+      "markdown": ''
+    }
     const element2 = new BoardElement<any>();
+    element2.contextSchema = element1.contextSchema
     element2.x = 10;
     element2.y = 10;
     element2.width = 400;
@@ -289,6 +296,8 @@ export class BoardComponent implements OnInit {
     console.log('dragoverhandler', ev);
     ev.preventDefault();
   }
+ 
+
 }
 function debounceMethod(ms: number, applyAfterDebounceDelay = false) {
   let timeoutId;

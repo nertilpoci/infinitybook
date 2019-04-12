@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Output, EventEmitter, Input } from '@angular/core';
 import {  BoardElement } from 'ibcommon-lib';
+import { MatDialog } from '@angular/material';
+import { BoardElementSettingsComponent } from '../boardelementsettings/boardelementsettings.component';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -22,7 +24,9 @@ export class BoardElementComponent extends  BoardElement<any> implements OnInit 
   isFullscreen = false;
   // tslint:disable-next-line:variable-name
   private _showHandle = false;
-  constructor() {
+  constructor(
+    public dialog: MatDialog
+  ) {
     super();
   }
 
@@ -115,6 +119,17 @@ export class BoardElementComponent extends  BoardElement<any> implements OnInit 
    const res = parseInt(translateString.slice(n + 1, n1 - 1));
    return res;
 
+  }
+
+  showSettings(){
+    const dialogRef = this.dialog.open(BoardElementSettingsComponent, {
+      minWidth: '400px',
+      data: this.element.contextSchema
+    });
+      console.log('s', this.element.contextSchema)
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
 

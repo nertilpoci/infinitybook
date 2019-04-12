@@ -10,8 +10,12 @@ import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import {MatIconModule} from '@angular/material/icon';
 import { AngularDraggableModule } from 'angular2-draggable';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { MaterialDesignFrameworkModule, Bootstrap4FrameworkModule } from 'angular6-json-schema-form';
+import { BoardElementSettingsComponent } from './boardelementsettings/boardelementsettings.component';
+import {MatDialogModule} from '@angular/material';
+
 @NgModule({
-  declarations: [BoardComponent, BoardElementComponent, DynamicContentComponent],
+  declarations: [BoardComponent,BoardElementSettingsComponent, BoardElementComponent, DynamicContentComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -20,11 +24,15 @@ import { OverlayModule } from '@angular/cdk/overlay';
     NgxPageScrollCoreModule,
     MatIconModule,
     AngularDraggableModule,
-    OverlayModule
+    OverlayModule,
+    MaterialDesignFrameworkModule,
+    Bootstrap4FrameworkModule,
+    MatDialogModule
+    
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  exports: [BoardComponent, BoardElementComponent, DynamicContentComponent],
-  entryComponents : [ ]
+  exports: [BoardComponent, BoardElementComponent, DynamicContentComponent,BoardElementSettingsComponent],
+  entryComponents : [ BoardElementSettingsComponent]
 
 })
 export class CoreModule { }
