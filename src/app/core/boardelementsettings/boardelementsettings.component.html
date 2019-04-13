@@ -2,12 +2,12 @@
 
 
     <h2 mat-dialog-title>Node Settings</h2>
-<mat-dialog-content class="mat-typography">
+<mat-dialog-content >
   <json-schema-form
   loadExternalAssets="true"
-  framework="material-design"
-  [(data)]="data.context"
-  [schema]="data.contextSchema"
+  framework="bootstrap-4"
+  [(data)]="boarElement.context"
+  [schema]="boarElement.contextSchema"
 
     (onSubmit)="save($event)"
     >

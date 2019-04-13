@@ -19,6 +19,7 @@ import { ViewContainerRef, Component, ViewChild, Input, OnInit, OnDestroy, Compo
     @Input()
     get context():any {return this._context}
     set context(value: any){
+      console.log("setting context", value)
       this._context=value;
       if(this.tile)this.tile.setAttribute('context', JSON.stringify( value));
     }

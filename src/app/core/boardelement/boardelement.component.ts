@@ -131,8 +131,8 @@ export class BoardElementComponent extends  BoardElement<any> implements OnInit 
       console.log('s', this.element.contextSchema)
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: `, result);
-      this.context = result.context;
-      this.settingsChanged.emit(this as BoardElement<any>);
+      this.element.context = result;
+      //  this.settingsChanged.emit(this as BoardElement<any>);
 
     });
   }

@@ -10,14 +10,14 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
   styleUrls: ['./boardelementsettings.component.scss']
 })
 export class BoardElementSettingsComponent implements OnInit {
-
+  boarElement : any;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: BoardElement<any>, private dialogRef:MatDialogRef<BoardElementSettingsComponent>  ) {
-     console.log('settings', this.data)
+   this.boarElement = Object.assign({}, data);
   }
    save(data: any){
      console.log('save', data)
-     this.dialogRef.close(this.data)
+     this.dialogRef.close(this.boarElement.context)
    }
 
   ngOnInit() {
