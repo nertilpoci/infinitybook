@@ -3,7 +3,7 @@
   (contextmenu)="rightClick($event, {});$event. preventDefault();"
   (drop)="dropHandler($event);" (dragover)="dragOverHandler($event);"
   >
-  <board-element (onDelete)="onDelete($event)" *ngFor="let element of boardElements" [element]="element" (resizeEnded)="resizeEnded($event)" (dragStopped)="dragStopped($event)" (dragMoving)="onMoving($event)">
+  <board-element (settingsChanged)="settingsChanged($event)" (onDelete)="onDelete($event)" *ngFor="let element of boardElements" [element]="element" (resizeEnded)="resizeEnded($event)" (dragStopped)="dragStopped($event)" (dragMoving)="onMoving($event)">
     <!-- <markdown ngPreserveWhitespaces src='https://raw.githubusercontent.com/nertilpoci/MultiStorageProvider/master/README.md'>
       # Markdown
     </markdown> -->

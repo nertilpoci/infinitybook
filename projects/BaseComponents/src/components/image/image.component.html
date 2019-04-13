@@ -1,1 +1,2 @@
-<img style="background-size:contain;width:100%;height:100%" [src]="context.src">
+<img  *ngIf="(vm.data$ | push) as data" style="background-size:contain;width:100%;height:100%" [src]="data.src">
+

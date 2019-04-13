@@ -52,7 +52,7 @@ export class BoardComponent implements OnInit {
     @Inject(DOCUMENT) private document: any
   ) {
     const element1 = new BoardElement<any>();
-    element1.x = 600;
+    element1.x = 300;
     element1.y = 10;
     element1.width = 471;
     element1.height = 461;
@@ -61,12 +61,22 @@ export class BoardComponent implements OnInit {
       src:
         'http://www.twentyonepilots.com/sites/g/files/g2000004896/f/Sample-image10-highres.jpg'
     };
-    element1.contextSchema={
-      "url": '',
-      "markdown": ''
-    }
+    element1.contextSchema=`{
+      "type": "object",
+    "properties": {
+      "src": { "type": "string" }
+    },
+    "required": [ "url" ]
+    }`
     const element2 = new BoardElement<any>();
-    element2.contextSchema = element1.contextSchema
+    element2.contextSchema = `{
+      "type": "object",
+    "properties": {
+      "src": { "type": "string" },
+      "content": { "type": "string" },
+    },
+    "required": [ "url" ]
+    }`
     element2.x = 10;
     element2.y = 10;
     element2.width = 400;
@@ -296,7 +306,12 @@ export class BoardComponent implements OnInit {
     console.log('dragoverhandler', ev);
     ev.preventDefault();
   }
- 
+  settingsChanged(data: BoardElement<any>){
+    console.log('sc', data);
+    console.log('elements', this.boardElements);
+    var element= this.boardElements.find(z=>z.id==data.id);
+    element.context.src= data.context.src
+  }
 
 }
 function debounceMethod(ms: number, applyAfterDebounceDelay = false) {

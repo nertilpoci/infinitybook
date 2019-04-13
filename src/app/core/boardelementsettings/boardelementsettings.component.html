@@ -6,7 +6,9 @@
   <json-schema-form
   loadExternalAssets="true"
   framework="material-design"
-    [(ngModel)]="data"
+  [(data)]="data.context"
+  [schema]="data.contextSchema"
+
     (onSubmit)="save($event)"
     >
   </json-schema-form>

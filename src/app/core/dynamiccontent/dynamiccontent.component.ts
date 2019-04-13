@@ -13,12 +13,16 @@ import { ViewContainerRef, Component, ViewChild, Input, OnInit, OnDestroy, Compo
     private componentRef: ComponentRef<{}>;
     @ViewChild('container', { read: ViewContainerRef })
     container: ViewContainerRef;
-
+    _context:any;
     @Input()
     type: string;
     @Input()
-    context: any;
-   
+    get context():any {return this._context}
+    set context(value: any){
+      this._context=value;
+      if(this.tile)this.tile.setAttribute('context', JSON.stringify( value));
+    }
+    tile:any;
     
     constructor(
       private componentFactoryResolver: ComponentFactoryResolver,
@@ -32,10 +36,11 @@ import { ViewContainerRef, Component, ViewChild, Input, OnInit, OnDestroy, Compo
       addComponent(element:string){
         
 
-    const tile = document.createElement(element);
-     tile.setAttribute('context', JSON.stringify( this.context));
+    this.tile = document.createElement(element);
+    console.log('tile',JSON.stringify( this.context))
+    this.tile.setAttribute('context', JSON.stringify( this.context));
     
-    this.container.element.nativeElement.appendChild(tile)
+    this.container.element.nativeElement.appendChild(this.tile)
       }
 
       ngOnDestroy() {

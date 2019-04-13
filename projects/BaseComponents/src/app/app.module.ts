@@ -7,11 +7,13 @@ import { ImageComponent } from '../components/image/image.component';
 import { MarkdownComponent } from '../components/markdown/markdown.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { PushPipe } from './pipes/push.pipe';
 @NgModule({
   declarations: [
     AppComponent,
     ImageComponent,
-    MarkdownComponent
+    MarkdownComponent,
+    PushPipe
   ],
   imports: [
     BrowserModule,

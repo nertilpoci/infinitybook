@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, Input } from '@angular/core';
 
 import { DynamicComponent } from 'ibcommon-lib';
 import { ImageContext } from '../../app/common/model';
+import { ViewModelService } from '../../app/services/view-model.service';
 
 @Component({
   selector: 'image-element',
@@ -11,10 +12,17 @@ import { ImageContext } from '../../app/common/model';
 export class ImageComponent implements OnInit  {
 
   @Input()
-  public context: any;
-  ngOnInit() {
-    console.log('context', this.context)
+  get context(): any {return this.vm.data}
+  set context(value:any) {
+    console.log('imagevalue', value)
+    console.log('type', typeof value)
 
-    if(this.context) this.context = JSON.parse(this.context)
+    this.vm.data=value; 
+  }
+ 
+
+
+  constructor(public vm: ViewModelService) { }
+  ngOnInit() {
 }
 }

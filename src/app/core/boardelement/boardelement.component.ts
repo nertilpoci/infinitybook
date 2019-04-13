@@ -11,6 +11,7 @@ import { BoardElementSettingsComponent } from '../boardelementsettings/boardelem
 })
 export class BoardElementComponent extends  BoardElement<any> implements OnInit {
 
+  @Output() settingsChanged: EventEmitter<BoardElement<any>> = new EventEmitter();
   @Output() dragStopped: EventEmitter<BoardElement<any>> = new EventEmitter();
   @Output() dragMoving: EventEmitter<BoardElement<any>> = new EventEmitter();
   @Output() dragStarted: EventEmitter<BoardElement<any>> = new EventEmitter();
@@ -31,6 +32,7 @@ export class BoardElementComponent extends  BoardElement<any> implements OnInit 
   }
 
   ngOnInit() {
+    this.id=this.element.id;
   this.x = this.element.x;
   this.y = this.element.y;
   this.width = this.element.width;
@@ -124,11 +126,14 @@ export class BoardElementComponent extends  BoardElement<any> implements OnInit 
   showSettings(){
     const dialogRef = this.dialog.open(BoardElementSettingsComponent, {
       minWidth: '400px',
-      data: this.element.contextSchema
+      data: this.element
     });
       console.log('s', this.element.contextSchema)
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log(`Dialog result: `, result);
+      this.context = result.context;
+      this.settingsChanged.emit(this as BoardElement<any>);
+
     });
   }
 
