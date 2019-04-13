@@ -68,6 +68,24 @@ export class BoardComponent implements OnInit {
     },
     "required": [ "url" ]
     }`
+    const element3 = new BoardElement<any>();
+    element3.contextSchema = `{
+      "type": "object",
+    "properties": {
+      "src": { "type": "string" },
+      "content": { "type": "string" },
+    },
+    "required": [ "url" ]
+    }`
+    element3.x = 10;
+    element3.y = 10;
+    element3.width = 400;
+    element3.height = 600;
+    element3.type = 'markdown-element';
+    element3.context = {
+      src:
+        'https://raw.githubusercontent.com/nertilpoci/MultiStorageProvider/master/README.md'
+    };
     const element2 = new BoardElement<any>();
     element2.contextSchema = `{
       "type": "object",
@@ -77,17 +95,18 @@ export class BoardComponent implements OnInit {
     },
     "required": [ "url" ]
     }`
-    element2.x = 10;
+    element2.x = 300;
     element2.y = 10;
     element2.width = 400;
     element2.height = 600;
-    element2.type = 'markdown-element';
+    element2.type = 'image-element';
     element2.context = {
-      src:
-        'https://raw.githubusercontent.com/nertilpoci/MultiStorageProvider/master/README.md'
+      src:'https://imgsv.imaging.nikon.com/lineup/lens/zoom/normalzoom/af-s_dx_18-140mmf_35-56g_ed_vr/img/sample/sample1_l.jpg'
     };
-    this.boardElements.push(element2);
     this.boardElements.push(element1);
+    this.boardElements.push(element2);
+    this.boardElements.push(element3);
+
   }
   inDragElement: HTMLElement;
   inBounds = true;

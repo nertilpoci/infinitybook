@@ -1,2 +1,2 @@
-<markdown ngPreserveWhitespaces [src]='context.src'>
+<markdown ngPreserveWhitespaces *ngIf="(vm.data$ | push) as data"  [src]="data.src">
 </markdown>

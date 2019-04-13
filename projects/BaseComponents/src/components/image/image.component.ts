@@ -7,7 +7,8 @@ import { ViewModelService } from '../../app/services/view-model.service';
 @Component({
   selector: 'image-element',
   templateUrl: './image.component.html',
-  styleUrls: ['./image.component.scss']
+  styleUrls: ['./image.component.scss'],
+  providers: [ViewModelService]
 })
 export class ImageComponent implements OnInit  {
 
