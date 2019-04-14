@@ -11,11 +11,12 @@ import {MatIconModule} from '@angular/material/icon';
 import { AngularDraggableModule } from 'angular2-draggable';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MaterialDesignFrameworkModule, Bootstrap4FrameworkModule } from 'angular6-json-schema-form';
-import { BoardElementSettingsComponent } from './boardelementsettings/boardelementsettings.component';
+import { PopupNodeComponent } from './popupnode/popupnode.component';
 import {MatDialogModule} from '@angular/material';
+import { BoardElementSettingsComponent } from './boardelementsettings/boardelementsettings.component';
 
 @NgModule({
-  declarations: [BoardComponent,BoardElementSettingsComponent, BoardElementComponent, DynamicContentComponent],
+  declarations: [BoardComponent,PopupNodeComponent,BoardElementSettingsComponent, BoardElementComponent, DynamicContentComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -31,8 +32,8 @@ import {MatDialogModule} from '@angular/material';
     
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  exports: [BoardComponent, BoardElementComponent, DynamicContentComponent,BoardElementSettingsComponent],
-  entryComponents : [ BoardElementSettingsComponent]
+  exports: [BoardComponent, BoardElementComponent, PopupNodeComponent, DynamicContentComponent,BoardElementSettingsComponent],
+  entryComponents : [ BoardElementSettingsComponent,PopupNodeComponent]
 
 })
 export class CoreModule { }

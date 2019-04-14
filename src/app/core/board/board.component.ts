@@ -18,7 +18,6 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { fromEvent, Subscription } from 'rxjs';
 import { take, filter } from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
-import { BoardElementSettingsComponent } from '../boardelementsettings/boardelementsettings.component';
 
 // import { FileService } from '../../shared/services/file.service';
 @Component({

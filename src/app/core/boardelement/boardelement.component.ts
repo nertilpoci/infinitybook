@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Output, EventEmitter, Input } from '@angular/core';
 import {  BoardElement } from 'ibcommon-lib';
 import { MatDialog } from '@angular/material';
+import {  PopupNodeComponent } from '../popupnode/popupnode.component';
 import { BoardElementSettingsComponent } from '../boardelementsettings/boardelementsettings.component';
 
 @Component({
@@ -51,7 +52,11 @@ export class BoardElementComponent implements OnInit {
     return this.isFullscreen ? {x: 0, y: 0} : {x: this.element.x, y: this.element.y};
   }
   maximize() {
-    this.isFullscreen = !this.isFullscreen;
+    const dialogRef = this.dialog.open(PopupNodeComponent, {
+     
+      data: this.element
+    });
+      
   }
   onMounseEnter() {
   this.showHandle = true;
