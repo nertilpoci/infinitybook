@@ -12,7 +12,7 @@ import {
 import { PageScrollService, PageScrollInstance } from 'ngx-page-scroll-core';
 import { DOCUMENT } from '@angular/common';
 import { BoardElementComponent } from '../boardelement/boardelement.component';
-import { BoardElement } from 'ibcommon-lib';
+import { BoardElement, IWidget } from 'ibcommon-lib';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { fromEvent, Subscription } from 'rxjs';
@@ -54,63 +54,7 @@ export class BoardComponent implements OnInit {
     // private fileService: FileService,
     @Inject(DOCUMENT) private document: any
   ) {
-    const element1 = new BoardElement<any>();
-    element1.x = 300;
-    element1.y = 10;
-    element1.width = 471;
-    element1.height = 461;
-    element1.type = 'image-element';
-    element1.context = {
-      src:
-        'http://www.twentyonepilots.com/sites/g/files/g2000004896/f/Sample-image10-highres.jpg'
-    };
-    element1.contextSchema=`{
-      "type": "object",
-    "properties": {
-      "src": { "type": "string" }
-    },
-    "required": [ "url" ]
-    }`
-    const element3 = new BoardElement<any>();
-    element3.contextSchema = `{
-      "type": "object",
-    "properties": {
-      "src": { "type": "string" },
-      "content": { "type": "string" },
-    },
-    "required": [ "url" ]
-    }`
-    element3.x = 10;
-    element3.y = 10;
-    element3.width = 400;
-    element3.height = 600;
-    element3.type = 'markdown-element';
-    element3.context = {
-      src:
-        'https://raw.githubusercontent.com/nertilpoci/MultiStorageProvider/master/README.md'
-    };
-    const element2 = new BoardElement<any>();
-    element2.contextSchema = `{
-      "type": "object",
-    "properties": {
-      "src": { "type": "string" },
-      "content": { "type": "string" },
-    },
-    "required": [ "url" ]
-    }`
-    element2.x = 300;
-    element2.y = 10;
-    element2.width = 400;
-    element2.height = 600;
-    element2.zIndex=1000;
-    element2.type = 'image-element';
-    element2.context = {
-      src:'https://imgsv.imaging.nikon.com/lineup/lens/zoom/normalzoom/af-s_dx_18-140mmf_35-56g_ed_vr/img/sample/sample1_l.jpg'
-    };
-    this.boardElements.push(element1);
-    this.boardElements.push(element2);
-    this.boardElements.push(element3);
-
+    
   }
   inDragElement: HTMLElement;
   inBounds = true;
@@ -130,23 +74,11 @@ export class BoardComponent implements OnInit {
   }
   addNewItem() {
     this.openBottomSheet();
-    return;
-    console.log('add new item');
-    this.boardElements.push(
-      new BoardElement<any>({
-        x: 100,
-        y: 100,
-        width: 300,
-        height: 100,
-        type: 'markdown',
-        context: {
-          src:
-            'https://raw.githubusercontent.com/nertilpoci/MultiStorageProvider/master/README.md'
-        }
-      } as BoardElement<any>)
-    );
+    this.close();
   }
+  mousePosition: {x,y};
   rightClick({ x, y }: MouseEvent) {
+    this.mousePosition= {x:x, y:y};
     this.close();
     const positionStrategy = this.overlay
       .position()
@@ -208,10 +140,10 @@ export class BoardComponent implements OnInit {
     if (this.height < this.containerHeight) { this.height = this.containerHeight; }
   }
   save() {
-    // localStorage.setItem(
-    //   'boarditems',
-    //   JSON.stringify(this.boardItems.map(z => z))
-    // );
+    localStorage.setItem(
+      'boarditems',
+      JSON.stringify(this.boardItems.map(z => z.element))
+    );
   }
   elementChanged() {}
   @debounceMethod(100)
@@ -252,7 +184,7 @@ export class BoardComponent implements OnInit {
   ngOnInit() {
     const bitems = localStorage.getItem('boarditems');
     if (!bitems) { return; }
-    // this.boardElements = JSON.parse(bitems) as BoardElement<any>[];
+     this.boardElements = JSON.parse(bitems) as BoardElement<any>[];
   }
   scrollToEnd() {
     console.log('scrooll to end');
@@ -352,8 +284,19 @@ export class BoardComponent implements OnInit {
   }
   openBottomSheet(): void {
     var bottomSheetRef=this.bottomSheet.open(ComponentListComponent);
-     bottomSheetRef.afterDismissed().subscribe(result=>{
-       console.log('sheet dismissed', result)
+     bottomSheetRef.afterDismissed().subscribe((result: IWidget)=>{
+       if(result){
+         console.log('resut', result)
+        const boardElement = new BoardElement<any>();
+        boardElement.contextSchema = result.contextSchema
+        boardElement.x = this.mousePosition.x;
+        boardElement.y = this.mousePosition.y;
+        boardElement.width = 200;
+        boardElement.height = 200;
+        boardElement.type = result.htmlTag;
+        boardElement.context = {  src:'' };
+        this.boardElements.push(boardElement)
+      }
      })
   }
 }

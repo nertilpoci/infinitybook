@@ -1,3 +1,6 @@
-<p (click)="close()">
-  component-list works!
-</p>
+<mat-nav-list>
+  <a href="javascript:;" mat-list-item (click)="chooseWidget(widget)" *ngFor="let widget of widgets">
+    <span mat-line>{{widget.name}}</span>
+    <span mat-line>{{widget.description}}</span>
+  </a>
+</mat-nav-list>

@@ -12,10 +12,12 @@ import { AngularDraggableModule } from 'angular2-draggable';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MaterialDesignFrameworkModule, Bootstrap4FrameworkModule } from 'angular6-json-schema-form';
 import { PopupNodeComponent } from './popupnode/popupnode.component';
-import {MatDialogModule, MatBottomSheetModule, MAT_BOTTOM_SHEET_DEFAULT_OPTIONS} from '@angular/material';
+import {MatDialogModule, MatBottomSheetModule, MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, MatListModule, MatCardModule} from '@angular/material';
 import { BoardElementSettingsComponent } from './boardelementsettings/boardelementsettings.component';
 import {MatMenuModule} from '@angular/material/menu';
 import { ComponentListComponent } from './component-list/component-list.component';
+import { AppWidgetService, WidgetService } from './shared/services/widget.service';
+
 @NgModule({
   declarations: [BoardComponent,PopupNodeComponent,BoardElementSettingsComponent, BoardElementComponent, DynamicContentComponent, ComponentListComponent],
   imports: [
@@ -31,11 +33,14 @@ import { ComponentListComponent } from './component-list/component-list.componen
     Bootstrap4FrameworkModule,
     MatDialogModule,
     MatMenuModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MatListModule,
+    MatCardModule
     
   ],
   providers:[
-    {provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
+    {provide:WidgetService, useClass:AppWidgetService},
+    {provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}}
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [BoardComponent, BoardElementComponent, PopupNodeComponent, DynamicContentComponent,BoardElementSettingsComponent],

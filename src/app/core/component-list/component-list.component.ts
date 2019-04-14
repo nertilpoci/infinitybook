@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material';
+import { WidgetService } from '../shared/services/widget.service';
+import { IWidget } from 'ibcommon-lib';
 
 @Component({
   selector: 'app-component-list',
@@ -7,13 +9,17 @@ import { MatBottomSheetRef } from '@angular/material';
   styleUrls: ['./component-list.component.scss']
 })
 export class ComponentListComponent implements OnInit {
-
-  constructor(private sheetRef:MatBottomSheetRef<ComponentListComponent> ) { }
+  widgets: IWidget[] = [];
+  constructor(private sheetRef:MatBottomSheetRef<ComponentListComponent>, private widgetService: WidgetService ) { }
 
   close(){
-    this.sheetRef.dismiss({test:'test'})
+    
+  }
+  chooseWidget(widget: IWidget){
+    this.sheetRef.dismiss(widget)
   }
   ngOnInit() {
+    this.widgets = this.widgetService.getWidgets();
   }
 
 }
