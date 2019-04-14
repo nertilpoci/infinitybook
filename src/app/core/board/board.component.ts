@@ -18,6 +18,9 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { fromEvent, Subscription } from 'rxjs';
 import { take, filter } from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
+import {MatBottomSheet, MatBottomSheetRef} from '@angular/material';
+import { ComponentListComponent } from '../component-list/component-list.component';
+
 
 // import { FileService } from '../../shared/services/file.service';
 @Component({
@@ -44,6 +47,7 @@ export class BoardComponent implements OnInit {
   sub: Subscription;
 
   constructor(
+    private bottomSheet: MatBottomSheet,
     public overlay: Overlay,
     public viewContainerRef: ViewContainerRef,
     private pageScrollService: PageScrollService,
@@ -125,6 +129,8 @@ export class BoardComponent implements OnInit {
     }
   }
   addNewItem() {
+    this.openBottomSheet();
+    return;
     console.log('add new item');
     this.boardElements.push(
       new BoardElement<any>({
@@ -344,7 +350,12 @@ export class BoardComponent implements OnInit {
      var max = Math.max(...this.boardElements.map(z=>z.zIndex));
      element.zIndex = max + 1;
   }
-
+  openBottomSheet(): void {
+    var bottomSheetRef=this.bottomSheet.open(ComponentListComponent);
+     bottomSheetRef.afterDismissed().subscribe(result=>{
+       console.log('sheet dismissed', result)
+     })
+  }
 }
 function debounceMethod(ms: number, applyAfterDebounceDelay = false) {
   let timeoutId;

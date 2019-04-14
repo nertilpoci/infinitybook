@@ -12,11 +12,12 @@ import { AngularDraggableModule } from 'angular2-draggable';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MaterialDesignFrameworkModule, Bootstrap4FrameworkModule } from 'angular6-json-schema-form';
 import { PopupNodeComponent } from './popupnode/popupnode.component';
-import {MatDialogModule} from '@angular/material';
+import {MatDialogModule, MatBottomSheetModule, MAT_BOTTOM_SHEET_DEFAULT_OPTIONS} from '@angular/material';
 import { BoardElementSettingsComponent } from './boardelementsettings/boardelementsettings.component';
-
+import {MatMenuModule} from '@angular/material/menu';
+import { ComponentListComponent } from './component-list/component-list.component';
 @NgModule({
-  declarations: [BoardComponent,PopupNodeComponent,BoardElementSettingsComponent, BoardElementComponent, DynamicContentComponent],
+  declarations: [BoardComponent,PopupNodeComponent,BoardElementSettingsComponent, BoardElementComponent, DynamicContentComponent, ComponentListComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -28,12 +29,17 @@ import { BoardElementSettingsComponent } from './boardelementsettings/boardeleme
     OverlayModule,
     MaterialDesignFrameworkModule,
     Bootstrap4FrameworkModule,
-    MatDialogModule
+    MatDialogModule,
+    MatMenuModule,
+    MatBottomSheetModule
     
+  ],
+  providers:[
+    {provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [BoardComponent, BoardElementComponent, PopupNodeComponent, DynamicContentComponent,BoardElementSettingsComponent],
-  entryComponents : [ BoardElementSettingsComponent,PopupNodeComponent]
+  entryComponents : [ BoardElementSettingsComponent,PopupNodeComponent, ComponentListComponent]
 
 })
 export class CoreModule { }
