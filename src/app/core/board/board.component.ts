@@ -99,6 +99,7 @@ export class BoardComponent implements OnInit {
     element2.y = 10;
     element2.width = 400;
     element2.height = 600;
+    element2.zIndex=1000;
     element2.type = 'image-element';
     element2.context = {
       src:'https://imgsv.imaging.nikon.com/lineup/lens/zoom/normalzoom/af-s_dx_18-140mmf_35-56g_ed_vr/img/sample/sample1_l.jpg'
@@ -181,7 +182,7 @@ export class BoardComponent implements OnInit {
   resizeEnded() {
     localStorage.setItem(
       'boarditems',
-      JSON.stringify(this.boardItems.map(z => new BoardElement<any>(z)))
+      JSON.stringify(this.boardItems.map(z =>z.element))
     );
   }
   dragStopped() {
@@ -191,8 +192,8 @@ export class BoardComponent implements OnInit {
   }
   trimContainerIfNeeded() {
     const xyValues = this.boardItems.map(z => ({
-      x: z.x + z.width,
-      y: z.y + z.width
+      x: z.element.x + z.element.width,
+      y: z.element.y + z.element.width
     }));
     const maxX = Math.max(...xyValues.map(z => z.x));
     const maxY = Math.max(...xyValues.map(z => z.y));
@@ -202,10 +203,10 @@ export class BoardComponent implements OnInit {
     if (this.height < this.containerHeight) { this.height = this.containerHeight; }
   }
   save() {
-    localStorage.setItem(
-      'boarditems',
-      JSON.stringify(this.boardItems.map(z => new BoardElement<any>(z)))
-    );
+    // localStorage.setItem(
+    //   'boarditems',
+    //   JSON.stringify(this.boardItems.map(z => z))
+    // );
   }
   elementChanged() {}
   @debounceMethod(100)
@@ -330,6 +331,19 @@ export class BoardComponent implements OnInit {
     console.log('elements', this.boardElements);
     var element= this.boardElements.find(z=>z.id==data.id);
     element.context.src= data.context.src
+  }
+
+  elementClicked(element:BoardElement<any>){
+    this.calculateZIndexes(element);
+  }
+  calculateZIndexes(element:BoardElement<any>){
+    console.log('z index')
+    var min = Math.min(...this.boardElements.map(z=>z.zIndex));
+    if(min>0){
+      this.boardElements.forEach(z=>z.zIndex -= min);
+    }
+     var max = Math.max(...this.boardElements.map(z=>z.zIndex));
+     element.zIndex = max + 1;
   }
 
 }

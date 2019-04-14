@@ -3,7 +3,16 @@
   (contextmenu)="rightClick($event, {});$event. preventDefault();"
   (drop)="dropHandler($event);" (dragover)="dragOverHandler($event);"
   >
-  <board-element (settingsChanged)="settingsChanged($event)" (onDelete)="onDelete($event)" *ngFor="let element of boardElements" [element]="element" (resizeEnded)="resizeEnded($event)" (dragStopped)="dragStopped($event)" (dragMoving)="onMoving($event)">
+  <board-element
+    
+    (settingsChanged)="settingsChanged($event)"
+    (onDelete)="onDelete($event)"
+    *ngFor="let element of boardElements"
+    [element]="element"
+    (resizeEnded)="resizeEnded($event)" 
+    (dragStopped)="dragStopped($event)" 
+    (dragMoving)="onMoving($event)"
+    (click)="elementClicked(element)">
     <app-dynamic-content [type]="element.type" [context]="element.context"></app-dynamic-content>
     
 </board-element>

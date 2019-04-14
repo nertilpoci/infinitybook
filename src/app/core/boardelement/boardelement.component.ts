@@ -9,7 +9,7 @@ import { BoardElementSettingsComponent } from '../boardelementsettings/boardelem
   templateUrl: './boardelement.component.html',
   styleUrls: ['./boardelement.component.scss']
 })
-export class BoardElementComponent extends  BoardElement<any> implements OnInit {
+export class BoardElementComponent implements OnInit {
 
   @Output() settingsChanged: EventEmitter<BoardElement<any>> = new EventEmitter();
   @Output() dragStopped: EventEmitter<BoardElement<any>> = new EventEmitter();
@@ -28,15 +28,9 @@ export class BoardElementComponent extends  BoardElement<any> implements OnInit 
   constructor(
     public dialog: MatDialog
   ) {
-    super();
   }
 
   ngOnInit() {
-    this.id=this.element.id;
-  this.x = this.element.x;
-  this.y = this.element.y;
-  this.width = this.element.width;
-  this.height = this.element.height;
   }
   get showHandle() {
     return this.isFullscreen || this._showHandle;
@@ -45,16 +39,16 @@ export class BoardElementComponent extends  BoardElement<any> implements OnInit 
     this._showHandle = value;
   }
   get elementZIndex() {
-    return this.isFullscreen ? Number.MAX_SAFE_INTEGER : this.zIndex;
+    return this.isFullscreen ? Number.MAX_SAFE_INTEGER : this.element.zIndex;
   }
   get elementWidth() {
-    return this.isFullscreen ? window.innerWidth - 6 : this.width;
+    return this.isFullscreen ? window.innerWidth - 6 : this.element.width;
   }
   get elementHeight() {
-    return this.isFullscreen ? window.innerHeight - 6 : this.height;
+    return this.isFullscreen ? window.innerHeight - 6 : this.element.height;
   }
   get position() {
-    return this.isFullscreen ? {x: 0, y: 0} : {x: this.x, y: this.y};
+    return this.isFullscreen ? {x: 0, y: 0} : {x: this.element.x, y: this.element.y};
   }
   maximize() {
     this.isFullscreen = !this.isFullscreen;
@@ -67,22 +61,21 @@ export class BoardElementComponent extends  BoardElement<any> implements OnInit 
   this.showHandle = false;
   }
   onMoving(event) {
-    console.log('moving');
-    this.x = event.x;
-    this.y = event.y;
-    this.dragMoving.emit(this as BoardElement<any>);
+    this.element.x = event.x;
+    this.element.y = event.y;
+    this.dragMoving.emit(this.element);
   }
   onStop(element: HTMLElement) {
     console.log('onstop');
     if (this.isFullscreen) { return; }
     this.assignPosition(element);
-    this.dragStopped.emit(this as BoardElement<any>);
+    this.dragStopped.emit(this.element);
   }
 
   onResizeStop(event) {
-    this.width = event.size.width;
-    this.height = event.size.height;
-    this.resizeEnded.emit(this as BoardElement<any>);
+    this.element.width = event.size.width;
+    this.element.height = event.size.height;
+    this.resizeEnded.emit(this.element);
   }
   onResizeStart(event) {
 
@@ -92,13 +85,13 @@ export class BoardElementComponent extends  BoardElement<any> implements OnInit 
     // this.height = event.size.height
   }
   assignPosition(event) {
-    this.width = event.clientWidth;
-    this.height = event.clientHeight;
-    this.x = this.getTranslateXValue(event.style.transform);
-    this.y = this.getTranslateYValue(event.style.transform);
+    this.element.width = event.clientWidth;
+    this.element.height = event.clientHeight;
+    this.element.x = this.getTranslateXValue(event.style.transform);
+    this.element.y = this.getTranslateYValue(event.style.transform);
   }
   delete() {
-     this.onDelete.emit(this as BoardElement<any>);
+     this.onDelete.emit(this.element);
   }
 
  getTranslateXValue(translateString) {
