@@ -53,7 +53,6 @@ export class BoardElementComponent implements OnInit {
   }
   maximize() {
     const dialogRef = this.dialog.open(PopupNodeComponent, {
-     
       data: this.element
     });
       

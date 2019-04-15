@@ -1,4 +1,6 @@
-<div  [style.width.px]="width" [style.height.px]="height" class="board"
+<div class="board" style="position:relative;overflow: auto;" id="container" [style.width.px]="containerWidth"
+ [style.height.px]="containerHeight">
+  <div  [style.width.px]="width" [style.height.px]="height" 
   #myBounds
   (contextmenu)="rightClick($event, {});$event.preventDefault();"
   (drop)="dropHandler($event);" (dragover)="dragOverHandler($event);"
@@ -19,6 +21,8 @@
 
 
 </div>
+</div>
+
 <ng-template #boardContext>
   <section class="user-menu">
     <div *ngFor="let action of actions" (click)="action.click()">{{action.label}} </div>

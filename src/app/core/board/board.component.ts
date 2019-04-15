@@ -7,8 +7,11 @@ import {
   ViewChildren,
   QueryList,
   TemplateRef,
-  ViewContainerRef
+  ViewContainerRef,
+  OnDestroy,
+  AfterViewInit
 } from '@angular/core';
+
 import { PageScrollService, PageScrollInstance } from 'ngx-page-scroll-core';
 import { DOCUMENT } from '@angular/common';
 import { BoardElementComponent } from '../boardelement/boardelement.component';
@@ -20,6 +23,8 @@ import { take, filter } from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material';
 import { ComponentListComponent } from '../component-list/component-list.component';
+import { ResizeService } from '../shared/services/resize.service';
+import PerfectScrollbar from 'perfect-scrollbar';
 
 
 // import { FileService } from '../../shared/services/file.service';
@@ -28,7 +33,18 @@ import { ComponentListComponent } from '../component-list/component-list.compone
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss']
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
+  constructor(
+    private resizeService: ResizeService,
+    private bottomSheet: MatBottomSheet,
+    public overlay: Overlay,
+    public viewContainerRef: ViewContainerRef,
+    private pageScrollService: PageScrollService,
+    // private fileService: FileService,
+    @Inject(DOCUMENT) private document: any
+  ) {
+
+  }
   @ViewChild('basicContainer')
   public basicContainer: ElementRef;
   @ViewChild('boardContext') boardContext: TemplateRef<any>;
@@ -45,17 +61,7 @@ export class BoardComponent implements OnInit {
   boardElements: BoardElement<any>[] = [];
   overlayRef: OverlayRef | null;
   sub: Subscription;
-
-  constructor(
-    private bottomSheet: MatBottomSheet,
-    public overlay: Overlay,
-    public viewContainerRef: ViewContainerRef,
-    private pageScrollService: PageScrollService,
-    // private fileService: FileService,
-    @Inject(DOCUMENT) private document: any
-  ) {
-    
-  }
+  private resizeSubscription: Subscription;
   inDragElement: HTMLElement;
   inBounds = true;
   edge = {
@@ -64,6 +70,11 @@ export class BoardComponent implements OnInit {
     left: true,
     right: true
   };
+  mousePosition: {x, y};
+  copyElement: BoardElement<any> = null;
+  ngAfterViewInit(): void {
+    // const ps = new PerfectScrollbar('#container');
+  }
   close() {
     // tslint:disable-next-line:no-unused-expression
     this.sub && this.sub.unsubscribe();
@@ -76,33 +87,32 @@ export class BoardComponent implements OnInit {
     this.openBottomSheet();
     this.close();
   }
-  mousePosition: {x,y};
   rightClick({ x, y }: MouseEvent) {
-  
+
     this.actions = [
       {
         label: 'Add new ',
         click : () => {
-        
+
         }
       }
-    ]
+    ];
 
     if (this.copyElement) {
       this.actions.push({
         label: 'Paste',
         click: () => {
-          var element = JSON.parse(JSON.stringify(this.copyElement)) as BoardElement<any>;
+          const element = JSON.parse(JSON.stringify(this.copyElement)) as BoardElement<any>;
           element.x = x;
           element.y  = y;
-          this.boardElements.push(element)
+          this.boardElements.push(element);
         }
       });
     }
 
-    this.showContextMenu(x,y);
+    this.showContextMenu(x, y);
   }
-  showContextMenu(x: number, y: number){
+  showContextMenu(x: number, y: number) {
     this.mousePosition = {x, y};
     this.close();
     const positionStrategy = this.overlay
@@ -141,7 +151,6 @@ export class BoardComponent implements OnInit {
       )
       .subscribe(() => this.close());
   }
-  copyElement: BoardElement<any> = null;
   boarElementRightClick({x, y}: MouseEvent, element: BoardElement<any>) {
        event.stopPropagation();
        event.preventDefault();
@@ -153,7 +162,7 @@ export class BoardComponent implements OnInit {
           }
         }
       ];
-      this.showContextMenu(x,y);
+       this.showContextMenu(x, y);
   }
   resizeEnded() {
     localStorage.setItem(
@@ -167,16 +176,25 @@ export class BoardComponent implements OnInit {
     this.save();
   }
   trimContainerIfNeeded() {
+    console.log('trim if needed');
+    this.containerWidth = window.innerWidth;
+    this.containerHeight = window.innerHeight;
     const xyValues = this.boardItems.map(z => ({
       x: z.element.x + z.element.width,
-      y: z.element.y + z.element.width
+      y: z.element.y + z.element.height
     }));
     const maxX = Math.max(...xyValues.map(z => z.x));
     const maxY = Math.max(...xyValues.map(z => z.y));
-    if (this.width > this.containerWidth) { this.width = maxX + 10; }
-    if (this.height > this.containerHeight) { this.height = maxY + 10; }
-    if (this.width < this.containerWidth) { this.width = this.containerWidth; }
-    if (this.height < this.containerHeight) { this.height = this.containerHeight; }
+    if (this.containerWidth < maxX) {
+      this.width = maxX;
+     } else {
+       this.width = this.containerWidth;
+     }
+    if (this.containerHeight < maxY) {
+       this.height = maxY;
+       } else {
+         this.height = this.containerHeight;
+       }
   }
   save() {
     localStorage.setItem(
@@ -221,9 +239,18 @@ export class BoardComponent implements OnInit {
     this.edge = event;
   }
   ngOnInit() {
+    this.resizeSubscription = this.resizeService.onResize$
+    .subscribe(size => this.trimContainerIfNeeded());
     const bitems = localStorage.getItem('boarditems');
     if (!bitems) { return; }
     this.boardElements = JSON.parse(bitems) as BoardElement<any>[];
+    this.trimContainerIfNeeded();
+
+  }
+  ngOnDestroy() {
+    if (this.resizeSubscription) {
+      this.resizeSubscription.unsubscribe();
+    }
   }
   scrollToEnd() {
     console.log('scrooll to end');
