@@ -31,12 +31,12 @@ import { ComponentListComponent } from '../component-list/component-list.compone
 export class BoardComponent implements OnInit {
   @ViewChild('basicContainer')
   public basicContainer: ElementRef;
-  @ViewChild('userMenu') userMenu: TemplateRef<any>;
+  @ViewChild('boardContext') boardContext: TemplateRef<any>;
 
   @ViewChildren(BoardElementComponent) boardItems: QueryList<
     BoardElementComponent
   >;
-
+  actions: any[] = [];
   containerWidth: number = window.innerWidth;
   containerHeight: number = window.innerHeight;
   width: number = this.containerWidth;
@@ -78,7 +78,32 @@ export class BoardComponent implements OnInit {
   }
   mousePosition: {x,y};
   rightClick({ x, y }: MouseEvent) {
-    this.mousePosition= {x:x, y:y};
+  
+    this.actions = [
+      {
+        label: 'Add new ',
+        click : () => {
+        
+        }
+      }
+    ]
+
+    if (this.copyElement) {
+      this.actions.push({
+        label: 'Paste',
+        click: () => {
+          var element = JSON.parse(JSON.stringify(this.copyElement)) as BoardElement<any>;
+          element.x = x;
+          element.y  = y;
+          this.boardElements.push(element)
+        }
+      });
+    }
+
+    this.showContextMenu(x,y);
+  }
+  showContextMenu(x: number, y: number){
+    this.mousePosition = {x, y};
     this.close();
     const positionStrategy = this.overlay
       .position()
@@ -98,7 +123,7 @@ export class BoardComponent implements OnInit {
     });
 
     this.overlayRef.attach(
-      new TemplatePortal(this.userMenu, this.viewContainerRef, {
+      new TemplatePortal(this.boardContext, this.viewContainerRef, {
         $implicit: {}
       })
     );
@@ -116,10 +141,24 @@ export class BoardComponent implements OnInit {
       )
       .subscribe(() => this.close());
   }
+  copyElement: BoardElement<any> = null;
+  boarElementRightClick({x, y}: MouseEvent, element: BoardElement<any>) {
+       event.stopPropagation();
+       event.preventDefault();
+       this.actions = [
+        {
+          label: 'Copy',
+          click : () => {
+            this.copyElement = JSON.parse(JSON.stringify(element));
+          }
+        }
+      ];
+      this.showContextMenu(x,y);
+  }
   resizeEnded() {
     localStorage.setItem(
       'boarditems',
-      JSON.stringify(this.boardItems.map(z =>z.element))
+      JSON.stringify(this.boardItems.map(z => z.element))
     );
   }
   dragStopped() {
@@ -184,7 +223,7 @@ export class BoardComponent implements OnInit {
   ngOnInit() {
     const bitems = localStorage.getItem('boarditems');
     if (!bitems) { return; }
-     this.boardElements = JSON.parse(bitems) as BoardElement<any>[];
+    this.boardElements = JSON.parse(bitems) as BoardElement<any>[];
   }
   scrollToEnd() {
     console.log('scrooll to end');
@@ -203,7 +242,7 @@ export class BoardComponent implements OnInit {
 
   onDelete(element: BoardElement<any>) {
     this.boardElements.splice(
-      this.boardElements.findIndex(z => z.id == element.id),
+      this.boardElements.findIndex(z => z.id === element.id),
       1
     );
     this.save();
@@ -263,41 +302,41 @@ export class BoardComponent implements OnInit {
     console.log('dragoverhandler', ev);
     ev.preventDefault();
   }
-  settingsChanged(data: BoardElement<any>){
+  settingsChanged(data: BoardElement<any>) {
     console.log('sc', data);
     console.log('elements', this.boardElements);
-    var element= this.boardElements.find(z=>z.id==data.id);
-    element.context.src= data.context.src
+    const element = this.boardElements.find(z => z.id === data.id);
+    element.context.src = data.context.src;
   }
 
-  elementClicked(element:BoardElement<any>){
+  elementClicked(element: BoardElement<any>) {
     this.calculateZIndexes(element);
   }
-  calculateZIndexes(element:BoardElement<any>){
-    console.log('z index')
-    var min = Math.min(...this.boardElements.map(z=>z.zIndex));
-    if(min>0){
-      this.boardElements.forEach(z=>z.zIndex -= min);
+  calculateZIndexes(element: BoardElement<any>) {
+    console.log('z index');
+    const min = Math.min(...this.boardElements.map(z => z.zIndex));
+    if (min > 0) {
+      this.boardElements.forEach(z => z.zIndex -= min);
     }
-     var max = Math.max(...this.boardElements.map(z=>z.zIndex));
-     element.zIndex = max + 1;
+    const max = Math.max(...this.boardElements.map(z => z.zIndex));
+    element.zIndex = max + 1;
   }
   openBottomSheet(): void {
-    var bottomSheetRef=this.bottomSheet.open(ComponentListComponent);
-     bottomSheetRef.afterDismissed().subscribe((result: IWidget)=>{
-       if(result){
-         console.log('resut', result)
-        const boardElement = new BoardElement<any>();
-        boardElement.contextSchema = result.contextSchema
-        boardElement.x = this.mousePosition.x;
-        boardElement.y = this.mousePosition.y;
-        boardElement.width = 200;
-        boardElement.height = 200;
-        boardElement.type = result.htmlTag;
-        boardElement.context = {  src:'' };
-        this.boardElements.push(boardElement)
+    const bottomSheetRef = this.bottomSheet.open(ComponentListComponent);
+    bottomSheetRef.afterDismissed().subscribe((result: IWidget) => {
+       if (result) {
+         console.log('resut', result);
+         const boardElement = new BoardElement<any>();
+         boardElement.contextSchema = result.contextSchema;
+         boardElement.x = this.mousePosition.x;
+         boardElement.y = this.mousePosition.y;
+         boardElement.width = 200;
+         boardElement.height = 200;
+         boardElement.type = result.htmlTag;
+         boardElement.context = {  src: '' };
+         this.boardElements.push(boardElement);
       }
-     })
+     });
   }
 }
 function debounceMethod(ms: number, applyAfterDebounceDelay = false) {
