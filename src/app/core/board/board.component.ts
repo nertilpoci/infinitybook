@@ -9,7 +9,8 @@ import {
   TemplateRef,
   ViewContainerRef,
   OnDestroy,
-  AfterViewInit
+  AfterViewInit,
+  Input
 } from '@angular/core';
 
 import { PageScrollService, PageScrollInstance } from 'ngx-page-scroll-core';
@@ -53,8 +54,8 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
     BoardElementComponent
   >;
   actions: any[] = [];
-  containerWidth: number = window.innerWidth;
-  containerHeight: number = window.innerHeight;
+  @Input() containerWidth: number = window.innerWidth;
+  @Input() containerHeight: number = window.innerHeight -50 ;
   width: number = this.containerWidth;
   height: number = this.containerHeight;
 
@@ -83,17 +84,15 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
       this.overlayRef = null;
     }
   }
-  addNewItem() {
-    this.openBottomSheet();
-    this.close();
-  }
+  
   rightClick({ x, y }: MouseEvent) {
 
     this.actions = [
       {
         label: 'Add new ',
         click : () => {
-
+          this.showNewItemList();
+          this.close();
         }
       }
     ];
@@ -102,6 +101,7 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
       this.actions.push({
         label: 'Paste',
         click: () => {
+          this.close();
           const element = JSON.parse(JSON.stringify(this.copyElement)) as BoardElement<any>;
           element.x = x;
           element.y  = y;
@@ -158,6 +158,7 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           label: 'Copy',
           click : () => {
+            this.close();
             this.copyElement = JSON.parse(JSON.stringify(element));
           }
         }
@@ -176,6 +177,7 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.save();
   }
   trimContainerIfNeeded() {
+    if(!this.boardItems) return;
     console.log('trim if needed');
     this.containerWidth = window.innerWidth;
     this.containerHeight = window.innerHeight;
@@ -205,6 +207,7 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
   elementChanged() {}
   @debounceMethod(100)
   onMoving(element: BoardElement<any>) {
+    return;
     console.log(element);
     if (element.x + element.width >= this.width) {
       console.log('width');
@@ -348,7 +351,7 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
     const max = Math.max(...this.boardElements.map(z => z.zIndex));
     element.zIndex = max + 1;
   }
-  openBottomSheet(): void {
+  showNewItemList(): void {
     const bottomSheetRef = this.bottomSheet.open(ComponentListComponent);
     bottomSheetRef.afterDismissed().subscribe((result: IWidget) => {
        if (result) {

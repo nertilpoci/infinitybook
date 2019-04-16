@@ -17,9 +17,19 @@ import { BoardElementSettingsComponent } from './boardelementsettings/boardeleme
 import {MatMenuModule} from '@angular/material/menu';
 import { ComponentListComponent } from './component-list/component-list.component';
 import { AppWidgetService, WidgetService } from './shared/services/widget.service';
+import {MatTabsModule} from '@angular/material/tabs';
+import { BoardElementContainerComponent } from './boardcontainer/boardcontainer.component';
 
 @NgModule({
-  declarations: [BoardComponent,PopupNodeComponent,BoardElementSettingsComponent, BoardElementComponent, DynamicContentComponent, ComponentListComponent],
+  declarations: [
+    BoardElementContainerComponent,
+    BoardComponent,
+    PopupNodeComponent,
+    BoardElementSettingsComponent,
+    BoardElementComponent,
+    DynamicContentComponent,
+    ComponentListComponent
+  ],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -35,16 +45,27 @@ import { AppWidgetService, WidgetService } from './shared/services/widget.servic
     MatMenuModule,
     MatBottomSheetModule,
     MatListModule,
-    MatCardModule
-    
+    MatCardModule,
+    MatTabsModule
   ],
-  providers:[
-    {provide:WidgetService, useClass:AppWidgetService},
+  providers: [
+    {provide: WidgetService, useClass: AppWidgetService},
     {provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}}
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  exports: [BoardComponent, BoardElementComponent, PopupNodeComponent, DynamicContentComponent,BoardElementSettingsComponent],
-  entryComponents : [ BoardElementSettingsComponent,PopupNodeComponent, ComponentListComponent]
+  exports: [
+    BoardComponent,
+    BoardElementComponent,
+    PopupNodeComponent,
+    DynamicContentComponent,
+    BoardElementSettingsComponent,
+    BoardElementContainerComponent
+  ],
+  entryComponents : [
+    BoardElementSettingsComponent,
+    PopupNodeComponent,
+    ComponentListComponent
+  ]
 
 })
 export class CoreModule { }

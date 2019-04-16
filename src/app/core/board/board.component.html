@@ -1,67 +1,30 @@
-<div class="board" style="position:relative;overflow: auto;" id="container" [style.width.px]="containerWidth"
- [style.height.px]="containerHeight">
-  <div  [style.width.px]="width" [style.height.px]="height" 
-  #myBounds
-  (contextmenu)="rightClick($event, {});$event.preventDefault();"
-  (drop)="dropHandler($event);" (dragover)="dragOverHandler($event);"
-  >
-  <board-element
-    (contextmenu)="boarElementRightClick($event, element)"
-    (settingsChanged)="settingsChanged($event)"
-    (onDelete)="onDelete($event)"
-    *ngFor="let element of boardElements"
-    [element]="element"
-    (resizeEnded)="resizeEnded($event)" 
-    (dragStopped)="dragStopped($event)" 
-    (dragMoving)="onMoving($event)"
-    (click)="elementClicked(element)">
-    <app-dynamic-content (contextmenu)="$event.stopPropagation()" [type]="element.type" [context]="element.context"></app-dynamic-content>
-    
-</board-element>
-
-
-</div>
-</div>
 
 <ng-template #boardContext>
   <section class="user-menu">
     <div *ngFor="let action of actions" (click)="action.click()">{{action.label}} </div>
   </section>
 </ng-template>
-<!--
+<div class="board" id="container" [style.width.px]="containerWidth"
+[style.height.px]="containerHeight">
+ <div  [style.width.px]="width" [style.height.px]="height" 
+ #myBounds
+ (contextmenu)="rightClick($event, {});$event.preventDefault();"
+ (drop)="dropHandler($event);" (dragover)="dragOverHandler($event);"
+ >
+ <board-element
+   (contextmenu)="boarElementRightClick($event, element)"
+   (settingsChanged)="settingsChanged($event)"
+   (onDelete)="onDelete($event)"
+   *ngFor="let element of boardElements"
+   [element]="element"
+   (resizeEnded)="resizeEnded($event)" 
+   (dragStopped)="dragStopped($event)" 
+   (dragMoving)="onMoving($event)"
+   (click)="elementClicked(element)">
+   <app-dynamic-content (contextmenu)="$event.stopPropagation()" [type]="element.type" [context]="element.context"></app-dynamic-content>
+   
+</board-element>
 
 
-     <mat-card (cdkDragMoved)="dragMoved($event)" [bounds]="myBounds" (cdkDragReleased)="dragMoved($event)"  class="example-card" ngDraggable ngResizable [rzHandles]="'se,sw,ne,nw'" style="overflow:hidden"
-     (edge)="checkEdge($event)" [bounds]="myBounds" [inBounds]="inBounds"
-     (started)="onStart($event)" (stopped)="onStop($event)" (movingOffset)="onMoving($event)"
-     [preventDefaultEvent]="true" (endOffset)="onMoveEnd($event)"
-     >
-       <div class="example-handle" cdkDragHandle>
-               <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
-                 <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
-                 <path d="M0 0h24v24H0z" fill="none"></path>
-               </svg>
-             </div>
-   <mat-card-header>
-     <div mat-card-avatar class="example-header-image"></div>
-     <mat-card-title>Shiba Inu</mat-card-title>
-     <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-   </mat-card-header>
-   <mat-card-content>
-     <p>
-       The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-       A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-       bred for hunting.
-     </p>
-   </mat-card-content>
-   <mat-card-actions>
-     <button (click)="scrollToEnd()" mat-button>LIKE</button>
-     <button mat-button class="theEnd">SHARE</button>
-   </mat-card-actions>
-   <div id="basicScrollTarget" cdkDragHandle>
-           <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
-             <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
-             <path d="M0 0h24v24H0z" fill="none"></path>
-           </svg>
-         </div>
- </mat-card> -->
+</div>
+</div>
