@@ -1,9 +1,10 @@
 .board{
-  // background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
   background: #283048;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #859398, #283048);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #859398, #283048); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
+  overflow: auto;
+  position: relative;
 }
 
 .user-menu {
@@ -53,20 +54,22 @@
 }
 
 
-.board::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	background-color: #F5F5F5;
-}
+// .board::-webkit-scrollbar-track
+// {
+// 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+// 	background-color: #F5F5F5;
+// }
 
 .board::-webkit-scrollbar
 {
-	width: 6px;
-	background-color: #F5F5F5;
+
+  height: 4px;
+    width: 4px;
 }
 
 .board::-webkit-scrollbar-thumb
 {
-	background-color: #000000;
+  background: rgba(255, 238, 238, 0.56)
+
 }
 

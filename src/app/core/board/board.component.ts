@@ -36,7 +36,6 @@ import PerfectScrollbar from 'perfect-scrollbar';
 })
 export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
-    private resizeService: ResizeService,
     private bottomSheet: MatBottomSheet,
     public overlay: Overlay,
     public viewContainerRef: ViewContainerRef,
@@ -54,15 +53,14 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
     BoardElementComponent
   >;
   actions: any[] = [];
-  @Input() containerWidth: number = window.innerWidth;
-  @Input() containerHeight: number = window.innerHeight -50 ;
+  @Input() containerWidth: number
+  @Input() containerHeight: number
   width: number = this.containerWidth;
   height: number = this.containerHeight;
 
   boardElements: BoardElement<any>[] = [];
   overlayRef: OverlayRef | null;
   sub: Subscription;
-  private resizeSubscription: Subscription;
   inDragElement: HTMLElement;
   inBounds = true;
   edge = {
@@ -179,8 +177,6 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
   trimContainerIfNeeded() {
     if(!this.boardItems) return;
     console.log('trim if needed');
-    this.containerWidth = window.innerWidth;
-    this.containerHeight = window.innerHeight;
     const xyValues = this.boardItems.map(z => ({
       x: z.element.x + z.element.width,
       y: z.element.y + z.element.height
@@ -197,6 +193,14 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
        } else {
          this.height = this.containerHeight;
        }
+
+       console.log('maxX', maxX)
+       console.log('maxY', maxY)
+       console.log('containerW', this.containerWidth)
+       console.log('containerH', this.containerHeight)
+       console.log('width', this.width)
+       console.log('height', this.height)
+
   }
   save() {
     localStorage.setItem(
@@ -242,8 +246,6 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.edge = event;
   }
   ngOnInit() {
-    this.resizeSubscription = this.resizeService.onResize$
-    .subscribe(size => this.trimContainerIfNeeded());
     const bitems = localStorage.getItem('boarditems');
     if (!bitems) { return; }
     this.boardElements = JSON.parse(bitems) as BoardElement<any>[];
@@ -251,9 +253,6 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   ngOnDestroy() {
-    if (this.resizeSubscription) {
-      this.resizeSubscription.unsubscribe();
-    }
   }
   scrollToEnd() {
     console.log('scrooll to end');
