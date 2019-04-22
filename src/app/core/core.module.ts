@@ -12,13 +12,15 @@ import { AngularDraggableModule } from 'angular2-draggable';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MaterialDesignFrameworkModule, Bootstrap4FrameworkModule } from 'angular6-json-schema-form';
 import { PopupNodeComponent } from './popupnode/popupnode.component';
-import {MatDialogModule, MatBottomSheetModule, MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, MatListModule, MatCardModule} from '@angular/material';
+import {MatDialogModule, MatBottomSheetModule, MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, MatListModule, MatCardModule, MatSidenavModule, MatTreeModule} from '@angular/material';
 import { BoardElementSettingsComponent } from './boardelementsettings/boardelementsettings.component';
 import {MatMenuModule} from '@angular/material/menu';
 import { ComponentListComponent } from './component-list/component-list.component';
 import { AppWidgetService, WidgetService } from './shared/services/widget.service';
 import {MatTabsModule} from '@angular/material/tabs';
 import { BoardElementContainerComponent } from './boardcontainer/boardcontainer.component';
+import { BoardListComponent } from './boardlist/boardlist.component';
+import { ClarityModule } from "@clr/angular";
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { BoardElementContainerComponent } from './boardcontainer/boardcontainer.
     BoardElementSettingsComponent,
     BoardElementComponent,
     DynamicContentComponent,
-    ComponentListComponent
+    ComponentListComponent,
+    BoardListComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +49,12 @@ import { BoardElementContainerComponent } from './boardcontainer/boardcontainer.
     MatBottomSheetModule,
     MatListModule,
     MatCardModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSidenavModule,
+    MatTreeModule,
+    ClarityModule
+
+    
   ],
   providers: [
     {provide: WidgetService, useClass: AppWidgetService},
@@ -55,6 +63,7 @@ import { BoardElementContainerComponent } from './boardcontainer/boardcontainer.
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
     BoardComponent,
+    BoardListComponent,
     BoardElementComponent,
     PopupNodeComponent,
     DynamicContentComponent,
