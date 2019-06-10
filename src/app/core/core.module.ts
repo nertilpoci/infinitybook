@@ -21,6 +21,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { BoardElementContainerComponent } from './boardcontainer/boardcontainer.component';
 import { BoardListComponent } from './boardlist/boardlist.component';
 import { ClarityModule } from "@clr/angular";
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { ClarityModule } from "@clr/angular";
     MatTabsModule,
     MatSidenavModule,
     MatTreeModule,
-    ClarityModule
+    ClarityModule,
+    FormsModule
 
     
   ],

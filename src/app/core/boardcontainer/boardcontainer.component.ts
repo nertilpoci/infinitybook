@@ -3,6 +3,7 @@ import { ResizeService } from '../shared/services/resize.service';
 import { Subscription } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ClrSelectedState } from '@clr/angular';
+import { FormGroup, FormBuilder } from '@angular/forms';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'app-board-container',
@@ -17,8 +18,9 @@ export class BoardElementContainerComponent implements OnInit, OnDestroy {
     showActions=false;
     private _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;
+    options: FormGroup;
 
-    constructor(private resizeService: ResizeService,changeDetectorRef: ChangeDetectorRef, media: MediaMatcher)
+    constructor(private fb:FormBuilder, private resizeService: ResizeService,changeDetectorRef: ChangeDetectorRef, media: MediaMatcher)
     {
       
     this.resizeSubscription = this.resizeService.onResize$
@@ -27,17 +29,14 @@ export class BoardElementContainerComponent implements OnInit, OnDestroy {
       this.containerWidth= size.innerWidth;
     });
 
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
+    this.options = fb.group({
+        bottom: 0,
+        fixed: true,
+        top: 0
+      });
+  
     }
-    fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);
-    fillerContent = Array.from({length: 50}, () =>
-    `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-     labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-     laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-     voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-     cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`);
+    
     ngOnInit(): void {
         
     }
@@ -48,66 +47,5 @@ export class BoardElementContainerComponent implements OnInit, OnDestroy {
       this.mobileQuery.removeListener(this._mobileQueryListener);
 
     }
-    root = [
-      {
-          name: "src",
-          selected: ClrSelectedState.INDETERMINATE,
-          files: [
-              {
-                  name: "app",
-                  selected: ClrSelectedState.INDETERMINATE,
-                  files: [
-                      {
-                          name: "app.component.html",
-                          selected: ClrSelectedState.UNSELECTED
-                      },
-                      {
-                          name: "app.component.ts",
-                          selected: ClrSelectedState.UNSELECTED
-                      },
-                      {
-                          name: "app.module.ts",
-                          selected: ClrSelectedState.SELECTED
-                      },
-                      {
-                          name: "app.routing.ts",
-                          selected: ClrSelectedState.UNSELECTED
-                      }
-                  ]
-              },
-              {
-                  name: "environments",
-                  selected: ClrSelectedState.SELECTED,
-                  files: [
-                      {
-                          name: "environments.prod.ts",
-                          selected: ClrSelectedState.SELECTED
-                      },
-                      {
-                          name: "environment.ts",
-                          selected: ClrSelectedState.SELECTED
-                      }
-                  ]
-              },
-              {
-                  name: "index.html",
-                  selected: ClrSelectedState.UNSELECTED,
-              },
-              {
-                  name: "main.ts",
-                  selected: ClrSelectedState.UNSELECTED,
-              }
-          ]
-      },
-      {
-          name: "package.json",
-          selected: ClrSelectedState.UNSELECTED
-      },
-      {
-          name: "tsconfig.json",
-          selected: ClrSelectedState.UNSELECTED
-      }
-  ];
-
-  getChildren = (folder) => folder.files;
+  
 }
